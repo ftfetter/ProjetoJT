@@ -1,67 +1,23 @@
+package Forms;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.*;
+import java.awt.event.*;
 
-/**
- * Created by ilegra0320 on 17/04/2017.
- */
-public class frmLogin extends JFrame {
-    private JPanel jPanelLogin;
+import Database.*;
+import Users.*;
 
-    Connection con = null;
-    PreparedStatement pst = null;
-    ResultSet rs = null;
+public class frmLogin extends JFrame{
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
-    public frmLogin() throws ClassNotFoundException {
+    public frmLogin() {
 
         initComponents();
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
-    public void login() throws ClassNotFoundException {
-
-        String select = "SELECT * FROM login WHERE usuario = ? AND senha = ?;";
-
-        try{
-            con = dbConnect.getConnection();
-
-            //preparando os SELECTS
-            pst = con.prepareStatement(select);
-            //setando as variáveis do SELECT
-            pst.setString(1, jTextFieldUsuario.getText());
-            pst.setString(2, String.valueOf(jPasswordFieldSenha.getPassword()));
-
-            rs = pst.executeQuery();
-
-            if(rs.next()){
-                int tipo = rs.getInt(4);
-                if(tipo == 1){
-                    JOptionPane.showMessageDialog(null,"BEM VINDO ADMIN");
-                    int id_treinador = rs.getInt(5);
-                }else{
-                    JOptionPane.showMessageDialog(null,"BEM VINDO CLIENTE");
-                    int id_aluno = rs.getInt(6);
-                }
-            }else {
-                JOptionPane.showMessageDialog(null,"Usuário e/ou senha inválidos.");
-            }
-        }
-        catch(SQLException error){
-            error.printStackTrace();
-        }
-
     }
 
+    // Função para inicialização de todos os componentes visuais
     private void initComponents() {
 
-        jPanelLogin = new JPanel();
         jTextFieldUsuario = new JTextField();
         jButtonLogin = new JButton();
         jLabelLogin = new JLabel();
@@ -69,6 +25,8 @@ public class frmLogin extends JFrame {
         jLabelTitulo = new JLabel();
         jPasswordFieldSenha = new JPasswordField();
 
+        setTitle("TrainingCheck");
+        setSize(350,500);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         jButtonLogin.setText("Entrar");
@@ -83,7 +41,6 @@ public class frmLogin extends JFrame {
         });
 
         jLabelLogin.setText("Login");
-        jLabelLogin.setToolTipText("");
 
         jLabelSenha.setText("Senha");
 
@@ -135,9 +92,35 @@ public class frmLogin extends JFrame {
     }
 
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) throws ClassNotFoundException {
-        // TODO add your handling code here:
-        login();
+        Usuario usuario = new Usuario(jTextFieldUsuario.getText(),String.valueOf(jPasswordFieldSenha.getPassword()));
 
+        if (validaLogin(usuario)){
+            usuario = UsuarioDAO.autenticando(usuario);
+            login(usuario);
+        }
+    }
+    public boolean validaLogin(Usuario usuario){
+        if (usuario.getLogin().isEmpty() || usuario.getSenha().isEmpty()){
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    public boolean login(Usuario usuario){
+        switch(usuario.getTipoLogin()){
+            case 1:
+                Usuario treinador = TreinadorDAO.setTreinador(usuario);
+                //JOptionPane.showMessageDialog(null,"Bem vindo "+treinador.getNome());
+                return true;
+            case 2:
+                Usuario aluno = AlunoDAO.setAluno(usuario);
+                //JOptionPane.showMessageDialog(null,"Bem vindo "+aluno.getNome());
+                return true;
+            default:
+                JOptionPane.showMessageDialog(null,"Usuário e/ou senha inválidos.");
+        }
+        return false;
     }
 
     private JLabel jLabelTitulo;
