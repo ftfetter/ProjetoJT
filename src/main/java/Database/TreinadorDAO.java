@@ -10,7 +10,7 @@ public class TreinadorDAO {
     static ResultSet resultSet;
 
 
-    public static Usuario setTreinador(Usuario usuario) {
+    public Usuario setTreinador(Usuario usuario) {
 
         String select = "SELECT * FROM treinador WHERE id = ?;";
         Usuario treinador = null;
@@ -52,9 +52,10 @@ public class TreinadorDAO {
         return treinador;
     }
 
-    public static Usuario buscaTreinador(int idTreinador){
-        Usuario treinador = null;
+    public Usuario buscaTreinador(int idTreinador){
+        Usuario treinador;
 
+        treinador = new Treinador();
 
         return treinador;
     }

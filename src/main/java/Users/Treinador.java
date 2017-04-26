@@ -5,6 +5,10 @@ package Users;
  */
 public class Treinador extends Usuario {
 
+    public Treinador(){
+
+    }
+
     public Treinador(int id, String nome, String cpf, int tipoLogin, String login, String senha) {
         super(login, senha);
         super.setId(id);

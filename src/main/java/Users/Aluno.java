@@ -1,10 +1,12 @@
 package Users;
 
-import Database.TreinadorDAO;
-
 public class Aluno extends Usuario {
 
-    private Usuario treinador;
+    private int idTreinador;
+
+    public Aluno(){
+
+    }
 
     public Aluno(int id, String nome, String cpf, int tipoLogin, int idTreinador, String login, String senha) {
         super(login, senha);
@@ -12,14 +14,14 @@ public class Aluno extends Usuario {
         super.setNome(nome);
         super.setCPF(cpf);
         super.setTipoLogin(tipoLogin);
-        this.setTreinador(idTreinador);
+        this.setIdTreinador(idTreinador);
     }
 
-    public Usuario getTreinador() {
-        return treinador;
+    public int getIdTreinador() {
+        return idTreinador;
     }
 
-    public void setTreinador(int idTreinador){
-        this.treinador = TreinadorDAO.buscaTreinador(idTreinador);
+    public void setIdTreinador(int idTreinador) {
+        this.idTreinador = idTreinador;
     }
 }

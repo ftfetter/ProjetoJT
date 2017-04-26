@@ -54,8 +54,9 @@ public class AlunoDAO {
     }
 
     public static Usuario buscaAluno(String nomeAluno){
-        Usuario aluno = null;
+        Usuario aluno;
 
+        aluno = new Aluno();
 
         return aluno;
     }

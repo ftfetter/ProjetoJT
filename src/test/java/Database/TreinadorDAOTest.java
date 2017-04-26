@@ -6,14 +6,22 @@ import org.junit.Test;
 
 public class TreinadorDAOTest {
 
+    TreinadorDAO treinadorDAO = new TreinadorDAO();
+    Usuario treinador;
+
     @Test
     public void setandoTreinador(){
         Usuario usuario = new Usuario("admin","admin");
         usuario.setId(1);
 
-        Usuario treinador;
+        treinador = treinadorDAO.setTreinador(usuario);
 
-        treinador = TreinadorDAO.setTreinador(usuario);
+        Assert.assertNotNull(treinador);
+    }
+
+    @Test
+    public void encontrandoTreinador(){
+        treinador = treinadorDAO.buscaTreinador(1);
 
         Assert.assertNotNull(treinador);
     }

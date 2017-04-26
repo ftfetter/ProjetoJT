@@ -97,6 +97,8 @@ public class frmLogin extends JFrame{
         if (validaLogin(usuario)){
             usuario = UsuarioDAO.autenticando(usuario);
             login(usuario);
+        } else {
+            JOptionPane.showMessageDialog(null,"Login inválido.");
         }
     }
     public boolean validaLogin(Usuario usuario){
@@ -110,11 +112,13 @@ public class frmLogin extends JFrame{
     public boolean login(Usuario usuario){
         switch(usuario.getTipoLogin()){
             case 1:
-                Usuario treinador = TreinadorDAO.setTreinador(usuario);
+                TreinadorDAO treinadorDAO = new TreinadorDAO();
+                Usuario treinador = treinadorDAO.setTreinador(usuario);
                 //JOptionPane.showMessageDialog(null,"Bem vindo "+treinador.getNome());
                 return true;
             case 2:
-                Usuario aluno = AlunoDAO.setAluno(usuario);
+                AlunoDAO alunoDAO = new AlunoDAO();
+                Usuario aluno = alunoDAO.setAluno(usuario);
                 //JOptionPane.showMessageDialog(null,"Bem vindo "+aluno.getNome());
                 return true;
             default:
