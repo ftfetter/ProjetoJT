@@ -10,7 +10,7 @@ public class UsuarioDAO {
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet;
 
-    public static Usuario autenticando(Usuario usuario) {
+    public Usuario autenticarLogin(Usuario usuario) {
 
         String select = "SELECT * FROM login WHERE usuario = ? AND senha = ?;";
 

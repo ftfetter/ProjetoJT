@@ -95,7 +95,8 @@ public class frmLogin extends JFrame{
         Usuario usuario = new Usuario(jTextFieldUsuario.getText(),String.valueOf(jPasswordFieldSenha.getPassword()));
 
         if (validaLogin(usuario)){
-            usuario = UsuarioDAO.autenticando(usuario);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuario = usuarioDAO.autenticarLogin(usuario);
             login(usuario);
         } else {
             JOptionPane.showMessageDialog(null,"Login inválido.");

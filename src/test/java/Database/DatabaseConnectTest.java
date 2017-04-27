@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import java.sql.Connection;
 
-/**
- * Created by ilegra0320 on 20/04/2017.
- */
+
 public class DatabaseConnectTest {
 
     @Test

@@ -8,7 +8,15 @@ public class TreinadorDAO {
     static Connection connection = null;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet;
+    private Aluno atualAluno;
 
+    public Aluno getAtualAluno(){
+        return this.atualAluno;
+    }
+
+    public void setAtualAluno(Aluno atualAluno){
+        this.atualAluno = atualAluno;
+    }
 
     public Usuario setTreinador(Usuario usuario) {
 
@@ -59,4 +67,5 @@ public class TreinadorDAO {
 
         return treinador;
     }
+
 }

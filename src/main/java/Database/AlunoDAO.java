@@ -3,6 +3,8 @@ package Database;
 import Users.*;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlunoDAO {
     static Connection connection = null;
@@ -13,7 +15,7 @@ public class AlunoDAO {
     public static Usuario setAluno(Usuario usuario) {
 
         String select = "SELECT * FROM aluno WHERE id = ?;";
-        Usuario aluno = null;
+        Usuario aluno;
 
         try {
             connection = DatabaseConnect.getConnection();
@@ -50,14 +52,50 @@ public class AlunoDAO {
             }
         }
 
-        return aluno;
+        return aluno = new Aluno();
     }
 
-    public static Usuario buscaAluno(String nomeAluno){
+    public static List<Usuario> buscarAluno(String nomeAluno){
+
+        List<Usuario> alunos = new ArrayList<>();
+        String select = "SELECT * FROM aluno WHERE nome LIKE '%"+nomeAluno+"%';";
         Usuario aluno;
 
-        aluno = new Aluno();
+        try {
+            connection = DatabaseConnect.getConnection();
 
-        return aluno;
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                aluno = new Aluno(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getFloat(6),
+                        resultSet.getFloat(7),
+                        resultSet.getFloat(8)
+                        );
+                aluno.setTelefone(resultSet.getString(4));
+                aluno.setEmail(resultSet.getString(5));
+
+                alunos.add(aluno);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return alunos;
     }
 }
