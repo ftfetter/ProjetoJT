@@ -1,15 +1,14 @@
-package Forms;
+package View;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
 import Database.*;
-import Users.*;
+import Beans.*;
 
-public class frmLogin extends JFrame{
+public class LoginFrame extends JFrame{
 
-    public frmLogin() {
+    public LoginFrame() {
 
         initComponents();
 
@@ -94,7 +93,7 @@ public class frmLogin extends JFrame{
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) throws ClassNotFoundException {
         Usuario usuario = new Usuario(jTextFieldUsuario.getText(),String.valueOf(jPasswordFieldSenha.getPassword()));
 
-        if (validaLogin(usuario)){
+        if (validarLogin(usuario)){
             UsuarioDAO usuarioDAO = new UsuarioDAO();
             usuario = usuarioDAO.autenticarLogin(usuario);
             login(usuario);
@@ -102,7 +101,8 @@ public class frmLogin extends JFrame{
             JOptionPane.showMessageDialog(null,"Login inválido.");
         }
     }
-    public boolean validaLogin(Usuario usuario){
+
+    public boolean validarLogin(Usuario usuario){
         if (usuario.getLogin().isEmpty() || usuario.getSenha().isEmpty()){
             return false;
         }else {
@@ -114,13 +114,15 @@ public class frmLogin extends JFrame{
         switch(usuario.getTipoLogin()){
             case 1:
                 TreinadorDAO treinadorDAO = new TreinadorDAO();
-                Usuario treinador = treinadorDAO.setTreinador(usuario);
-                //JOptionPane.showMessageDialog(null,"Bem vindo "+treinador.getNome());
+                Treinador treinador = treinadorDAO.setTreinador(usuario);
+                TreinadorFrame TreinadorFrame = new TreinadorFrame(treinador);
+                this.setVisible(false);
+                TreinadorFrame.setVisible(true);
                 return true;
             case 2:
                 AlunoDAO alunoDAO = new AlunoDAO();
-                Usuario aluno = alunoDAO.setAluno(usuario);
-                //JOptionPane.showMessageDialog(null,"Bem vindo "+aluno.getNome());
+                Aluno aluno = alunoDAO.setAluno(usuario);
+
                 return true;
             default:
                 JOptionPane.showMessageDialog(null,"Usuário e/ou senha inválidos.");

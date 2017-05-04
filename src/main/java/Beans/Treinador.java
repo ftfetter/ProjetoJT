@@ -1,8 +1,5 @@
-package Users;
+package Beans;
 
-/**
- * Created by ilegra0320 on 19/04/2017.
- */
 public class Treinador extends Usuario {
 
     public Treinador(){

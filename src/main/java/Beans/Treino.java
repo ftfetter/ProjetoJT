@@ -1,4 +1,4 @@
-package Users;
+package Beans;
 
 public class Treino {
 

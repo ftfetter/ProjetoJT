@@ -1,18 +1,18 @@
-package Users;
+package Beans;
 
 public class Aluno extends Usuario {
 
-    private int idTreinador;
+    private int treinadorId;
     private float peso;
     private float altura;
     private float gordura;
 
-    public int getIdTreinador() {
-        return idTreinador;
+    public int getTreinadorId() {
+        return treinadorId;
     }
 
-    public void setIdTreinador(int idTreinador) {
-        this.idTreinador = idTreinador;
+    public void setTreinadorId(int treinadorId) {
+        this.treinadorId = treinadorId;
     }
 
     public float getPeso() {
@@ -43,13 +43,10 @@ public class Aluno extends Usuario {
 
     }
 
-    public Aluno(int id, String nome, String cpf, float peso, float altura, float gordura){
+    public Aluno(int id, String nome, String cpf){
         super.setId(id);
         super.setNome(nome);
         super.setCPF(cpf);
-        this.setPeso(peso);
-        this.setAltura(altura);
-        this.setGordura(gordura);
     }
 
     public Aluno(int id, String nome, String cpf, int tipoLogin, int idTreinador, String login, String senha) {
@@ -58,7 +55,7 @@ public class Aluno extends Usuario {
         super.setNome(nome);
         super.setCPF(cpf);
         super.setTipoLogin(tipoLogin);
-        this.setIdTreinador(idTreinador);
+        this.setTreinadorId(treinadorId);
     }
 
 

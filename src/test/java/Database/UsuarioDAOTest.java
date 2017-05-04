@@ -1,9 +1,8 @@
 package Database;
 
-import Users.Usuario;
+import Beans.Usuario;
 import org.junit.Assert;
 import org.junit.Test;
-
 
 public class UsuarioDAOTest {
 
@@ -14,7 +13,7 @@ public class UsuarioDAOTest {
 
         usuario = usuarioDAO.autenticarLogin(usuario);
 
-        Assert.assertNotNull(usuario.getId());
+        Assert.assertTrue(usuario.getId() != 0);
     }
 
     @Test

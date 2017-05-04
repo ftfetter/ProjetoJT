@@ -1,29 +1,29 @@
-package Forms;
+package View;
 
-import Users.Usuario;
+import Beans.Usuario;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class frmLoginTest {
+public class LoginFrameTest {
     Usuario usuario = new Usuario("admin","admin");
-    frmLogin frmlogin = new frmLogin();
+    LoginFrame loginFrame = new LoginFrame();
 
     @Test
     public void validandoLogin (){
-        Assert.assertTrue(frmlogin.validaLogin(usuario));
+        Assert.assertTrue(loginFrame.validarLogin(usuario));
     }
 
     @Test
     public void logandoTreinador (){
         usuario.setTipoLogin(1);
 
-        Assert.assertTrue(frmlogin.login(usuario));
+        Assert.assertTrue(loginFrame.login(usuario));
     }
 
     @Test
     public void logandoAluno (){
         usuario.setTipoLogin(2);
 
-        Assert.assertTrue(frmlogin.login(usuario));
+        Assert.assertTrue(loginFrame.login(usuario));
     }
 }

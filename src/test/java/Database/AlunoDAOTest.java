@@ -1,16 +1,14 @@
 package Database;
 
-import Users.*;
+import Beans.*;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class AlunoDAOTest {
 
     AlunoDAO alunoDAO = new AlunoDAO();
-    Usuario aluno;
+    Aluno aluno;
 
     @Test
     public void setandoAluno(){
@@ -22,18 +20,26 @@ public class AlunoDAOTest {
         Assert.assertNotNull(aluno);
     }
 
+    /*
+    @Test
+    public void adicionandoAluno(){
+        aluno = new Aluno();
+
+        Assert.assertTrue(alunoDAO.adicionarAluno(aluno));
+    }*/
+
     @Test
     public void encontrandoAluno(){
-        List<Usuario> alunos;
-        alunos = alunoDAO.buscarAluno("jocemir");
+        List<Aluno> alunos;
+        alunos = alunoDAO.buscarAluno("j",1);
 
         Assert.assertNotEquals(alunos.size(),0);
     }
 
     @Test
     public void naoEncontrandoAluno(){
-        List<Usuario> alunos;
-        alunos = alunoDAO.buscarAluno("k");
+        List<Aluno> alunos;
+        alunos = alunoDAO.buscarAluno("k",1);
 
         Assert.assertEquals(alunos.size(),0);
     }

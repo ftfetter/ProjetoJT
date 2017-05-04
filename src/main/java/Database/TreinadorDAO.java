@@ -1,6 +1,6 @@
 package Database;
 
-import Users.*;
+import Beans.*;
 import java.sql.*;
 
 public class TreinadorDAO {
@@ -18,10 +18,10 @@ public class TreinadorDAO {
         this.atualAluno = atualAluno;
     }
 
-    public Usuario setTreinador(Usuario usuario) {
+    public Treinador setTreinador(Usuario usuario) {
 
         String select = "SELECT * FROM treinador WHERE id = ?;";
-        Usuario treinador = null;
+        Treinador treinador = null;
 
         try {
             connection = DatabaseConnect.getConnection();
@@ -45,9 +45,16 @@ public class TreinadorDAO {
             }
 
         } catch (SQLException e) {
+            treinador = new Treinador();
             e.printStackTrace();
 
         } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             if (connection != null) {
                 try {
                     connection.close();
@@ -60,8 +67,8 @@ public class TreinadorDAO {
         return treinador;
     }
 
-    public Usuario buscaTreinador(int idTreinador){
-        Usuario treinador;
+    public Treinador buscaTreinador(int idTreinador){
+        Treinador treinador;
 
         treinador = new Treinador();
 

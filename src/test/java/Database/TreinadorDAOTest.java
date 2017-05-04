@@ -1,6 +1,6 @@
 package Database;
 
-import Users.*;
+import Beans.*;
 import org.junit.Assert;
 import org.junit.Test;
 

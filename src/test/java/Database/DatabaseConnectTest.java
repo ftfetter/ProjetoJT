@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.sql.Connection;
 
-
 public class DatabaseConnectTest {
 
     @Test
