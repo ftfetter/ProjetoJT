@@ -31,7 +31,7 @@ public class AlunoDAOTest {
     @Test
     public void encontrandoAluno(){
         List<Aluno> alunos;
-        alunos = alunoDAO.buscarAluno("j",1);
+        alunos = alunoDAO.listarAluno("j",1);
 
         Assert.assertNotEquals(alunos.size(),0);
     }
@@ -39,7 +39,7 @@ public class AlunoDAOTest {
     @Test
     public void naoEncontrandoAluno(){
         List<Aluno> alunos;
-        alunos = alunoDAO.buscarAluno("k",1);
+        alunos = alunoDAO.listarAluno("k",1);
 
         Assert.assertEquals(alunos.size(),0);
     }

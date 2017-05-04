@@ -5,6 +5,7 @@ import Database.AlunoDAO;
 import Beans.Aluno;
 import Beans.Treinador;
 import Database.UsuarioDAO;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;
 import java.awt.*;
@@ -192,10 +193,21 @@ public class TreinadorAlunoAdicionar extends JFrame{
         aluno.setTipoLogin(2);
         aluno.setTreinadorId(treinador.getId());
 
-        if(alunoDAO.adicionarAluno(aluno) && usuarioDAO.adicionarUsuario(aluno))
-            JOptionPane.showMessageDialog(null,"Cliente adicionado com sucesso!");
-        else
-            JOptionPane.showMessageDialog(null, "Falha no cadastro.");
+        if(alunoDAO.validarAluno(aluno.getCPF())){
+            try{
+                alunoDAO.adicionarAluno(aluno);
+                aluno.setId(alunoDAO.buscarIdAluno(aluno));
+                usuarioDAO.adicionarUsuario(aluno);
+
+                JOptionPane.showMessageDialog(null,"Cliente cadastrado com Sucesso!");
+                this.dispose();
+            }catch (Exception e){
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null,"Falha no Cadastro!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"CPF já cadastrado!");
+        }
     }
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {

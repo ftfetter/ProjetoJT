@@ -9,8 +9,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,7 +172,7 @@ public class TreinadorAlunoPesquisar extends JFrame{
         DefaultTableModel tableModel = (DefaultTableModel) jTableAlunos.getModel();
 
         tableModel.setNumRows(0);
-        alunos = alunoDAO.buscarAluno(nomeAluno, treinador.getId());
+        alunos = alunoDAO.listarAluno(nomeAluno, treinador.getId());
 
         if (alunos.size() > 0){
             povoarTabela(alunos,tableModel);

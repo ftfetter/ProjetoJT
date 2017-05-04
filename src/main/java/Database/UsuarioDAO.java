@@ -59,7 +59,7 @@ public class UsuarioDAO {
     public boolean adicionarUsuario(Aluno aluno){
 
         boolean retorno = false;
-        String insert = "INSERT INTO usuario(usuario, senha, tipo, aluno_id) VALUES(?, ?, 2, LAST_INSERT_ID());";
+        String insert = "INSERT INTO usuario(usuario, senha, tipo, aluno_id) VALUES(?, ?, 2, ?);";
 
         try {
             connection = DatabaseConnect.getConnection();
@@ -69,6 +69,7 @@ public class UsuarioDAO {
 
             preparedStatement.setString(1,aluno.getLogin());
             preparedStatement.setString(2,aluno.getSenha());
+            preparedStatement.setInt(3,aluno.getId());
 
             retorno = preparedStatement.execute();
 

@@ -57,11 +57,6 @@ public class AlunoDAO {
     public boolean adicionarAluno(Aluno aluno){
 
         boolean retorno = false;
-
-        if(!buscarAluno(aluno.getNome(),aluno.getTreinadorId()).isEmpty()){
-            retorno = false;
-        }
-
         String insert = "INSERT INTO aluno(nome, cpf, telefone, email, treinador_id) VALUES(?, ?, ?, ?, ?);";
 
         try {
@@ -100,8 +95,69 @@ public class AlunoDAO {
         return retorno;
     }
 
-    public List<Aluno> buscarAluno(String nomeAluno, int treinadorId){
+    public boolean validarAluno(String cpf){
+        boolean alunoValido = false;
+        String select = "SELECT * FROM aluno WHERE cpf LIKE ?;";
 
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            preparedStatement = connection.prepareStatement(select);
+
+            preparedStatement.setString(1,cpf);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next()){
+                alunoValido = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return alunoValido;
+    }
+
+    public int buscarIdAluno(Aluno aluno){
+        int id = 0;
+        String select = "SELECT id FROM aluno WHERE cpf LIKE ?;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+
+            preparedStatement.setString(1,aluno.getCPF());
+
+            resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                id = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return id;
+    }
+
+    public List<Aluno> listarAluno(String nomeAluno, int treinadorId){
         List<Aluno> alunos = new ArrayList<>();
         String select = "SELECT * FROM aluno WHERE nome LIKE ? AND treinador_id=? ORDER BY nome ASC;";
 
