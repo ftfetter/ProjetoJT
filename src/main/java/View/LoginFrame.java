@@ -115,9 +115,9 @@ public class LoginFrame extends JFrame{
             case 1:
                 TreinadorDAO treinadorDAO = new TreinadorDAO();
                 Treinador treinador = treinadorDAO.setTreinador(usuario);
-                TreinadorFrame TreinadorFrame = new TreinadorFrame(treinador);
+                TreinadorFrame treinadorFrame = new TreinadorFrame(treinador);
                 this.setVisible(false);
-                TreinadorFrame.setVisible(true);
+                treinadorFrame.setVisible(true);
                 return true;
             case 2:
                 AlunoDAO alunoDAO = new AlunoDAO();

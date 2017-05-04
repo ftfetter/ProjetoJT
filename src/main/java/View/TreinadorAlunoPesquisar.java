@@ -52,7 +52,7 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
                 },
                 new String [] {
-                        "Nome", "Peso (kg)", "Altura (m)", "Gordura (%)"
+                        "ID", "Nome", "Peso (kg)", "Altura (m)", "Gordura (%)"
                 }
         ));
         jTableAlunos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -183,7 +183,11 @@ public class TreinadorAlunoPesquisar extends JFrame{
     }
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        Aluno aluno = new Aluno();
+
+        aluno = pegarTabela();
+
+        System.out.println(aluno.getId()+"//"+aluno.getNome()+"//"+aluno.getPeso()+"//"+aluno.getAltura()+"//"+aluno.getGordura());
     }
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,17 +200,32 @@ public class TreinadorAlunoPesquisar extends JFrame{
     }
 
     private boolean povoarTabela(List<Aluno> alunos, DefaultTableModel tableModel){
-        Object[] rowData = new Object[4];
+        Object[] rowData = new Object[5];
 
         for (int i = 0; i < alunos.size(); i++) {
-            rowData[0] = alunos.get(i).getNome();
-            rowData[1] = alunos.get(i).getPeso();
-            rowData[2] = alunos.get(i).getAltura();
-            rowData[3] = alunos.get(i).getGordura();
+            rowData[0] = alunos.get(i).getId();
+            rowData[1] = alunos.get(i).getNome();
+            rowData[2] = alunos.get(i).getPeso();
+            rowData[3] = alunos.get(i).getAltura();
+            rowData[4] = alunos.get(i).getGordura();
             tableModel.addRow(rowData);
         }
 
         return true;
+    }
+
+    private Aluno pegarTabela(){
+        Aluno aluno = new Aluno();
+        DefaultTableModel tableModel = (DefaultTableModel) jTableAlunos.getModel();
+        int linha = jTableAlunos.getSelectedRow();
+
+        aluno.setId((Integer) tableModel.getValueAt(linha,0));
+        aluno.setNome((String) tableModel.getValueAt(linha,1));
+        aluno.setPeso((Float) tableModel.getValueAt(linha,2));
+        aluno.setAltura((Float) tableModel.getValueAt(linha,3));
+        aluno.setGordura((Float) tableModel.getValueAt(linha,4));
+
+        return aluno;
     }
 
     private javax.swing.JButton jButtonPesquisar;
