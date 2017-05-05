@@ -5,7 +5,6 @@ import Database.AlunoDAO;
 import Beans.Aluno;
 import Beans.Treinador;
 import Database.UsuarioDAO;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.swing.*;
 import java.awt.*;

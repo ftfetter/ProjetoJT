@@ -3,45 +3,49 @@ package Database;
 import Beans.*;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AlunoDAOTest {
 
-    AlunoDAO alunoDAO = new AlunoDAO();
+    AlunoDAO alunoDAO = mock(AlunoDAO.class);
     Aluno aluno;
 
     @Test
     public void setandoAluno(){
         Usuario usuario = new Usuario();
-        usuario.setId(1);
+        aluno = new Aluno(1,"aluno","123.123.123-12");
 
-        aluno = alunoDAO.setAluno(usuario);
+        when(alunoDAO.setAluno(usuario)).thenReturn(aluno);
 
-        Assert.assertNotNull(aluno);
+        alunoDAO.setAluno(usuario);
+
+        Assert.assertNotEquals(0,aluno.getId());
     }
 
-    /*
     @Test
     public void adicionandoAluno(){
         aluno = new Aluno();
+        when(alunoDAO.adicionarAluno(aluno)).thenReturn(true);
 
         Assert.assertTrue(alunoDAO.adicionarAluno(aluno));
-    }*/
-
-    @Test
-    public void encontrandoAluno(){
-        List<Aluno> alunos;
-        alunos = alunoDAO.listarAluno("j",1);
-
-        Assert.assertNotEquals(alunos.size(),0);
     }
 
     @Test
-    public void naoEncontrandoAluno(){
-        List<Aluno> alunos;
-        alunos = alunoDAO.listarAluno("k",1);
+    public void encontrandoAluno(){
+        List<Aluno> alunos = new ArrayList<>();
+        aluno = new Aluno();
+        alunos.add(aluno);
 
-        Assert.assertEquals(alunos.size(),0);
+        when(alunoDAO.listarAluno("nomeAluno",1)).thenReturn(alunos);
+
+        alunoDAO.listarAluno("nomeAluno",1);
+
+        Assert.assertNotEquals(0,alunos.size());
     }
 
 }

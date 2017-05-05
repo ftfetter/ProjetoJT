@@ -1,28 +1,34 @@
 package Database;
 
+import Beans.Aluno;
 import Beans.Usuario;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.mockito.Mockito.*;
+
 public class UsuarioDAOTest {
+
+    UsuarioDAO usuarioDAO = mock(UsuarioDAO.class);
 
     @Test
     public void loginAutenticado(){
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = new Usuario("admin", "admin");
+        Usuario usuario = new Usuario();
+        usuario.setId(1);
 
-        usuario = usuarioDAO.autenticarLogin(usuario);
+        when(usuarioDAO.autenticarLogin(usuario)).thenReturn(usuario);
 
-        Assert.assertTrue(usuario.getId() != 0);
+        usuarioDAO.autenticarLogin(usuario);
+
+        Assert.assertNotEquals(0,usuario.getId());
     }
 
     @Test
-    public void loginNaoAutenticado(){
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = new Usuario("bla", "bla");
+    public void adicionandoUsuario(){
+        Aluno aluno = new Aluno();
 
-        usuario = usuarioDAO.autenticarLogin(usuario);
+        when(usuarioDAO.adicionarUsuario(aluno)).thenReturn(true);
 
-        Assert.assertTrue(usuario.getId() == 0);
+        Assert.assertTrue(usuarioDAO.adicionarUsuario(aluno));
     }
 }
