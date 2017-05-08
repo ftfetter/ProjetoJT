@@ -2,6 +2,7 @@ package Database;
 
 import Beans.*;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,8 +55,34 @@ public class AlunoDAO {
         return aluno = new Aluno();
     }
 
-    public boolean adicionarAluno(Aluno aluno){
+    public boolean alterarAluno(Aluno aluno){
+        boolean retorno = false;
+        String update = "UPDATE aluno SET nome = ?,telefone = ?,email = ?,peso = ?,altura = ?,gordura = ? WHERE id = ?;";
 
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o UPDATE
+            preparedStatement = connection.prepareStatement(update);
+            //setando as variáveis
+            preparedStatement.setString(1,aluno.getNome());
+            preparedStatement.setString(2,aluno.getTelefone());
+            preparedStatement.setString(3,aluno.getEmail());
+            preparedStatement.setFloat(4,aluno.getPeso());
+            preparedStatement.setFloat(5,aluno.getAltura());
+            preparedStatement.setFloat(6,aluno.getGordura());
+            preparedStatement.setFloat(7,aluno.getId());
+
+            retorno = preparedStatement.execute();
+            preparedStatement.close();
+
+        }catch (SQLException e){
+            e.getStackTrace();
+        }
+        return retorno;
+    }
+
+    public boolean adicionarAluno(Aluno aluno){
         boolean retorno = false;
         String insert = "INSERT INTO aluno(nome, cpf, telefone, email, treinador_id) VALUES(?, ?, ?, ?, ?);";
 
@@ -75,7 +102,6 @@ public class AlunoDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            retorno = false;
 
         } finally {
             if(preparedStatement != null)
@@ -155,6 +181,26 @@ public class AlunoDAO {
             }
         }
         return id;
+    }
+
+    public boolean excluirAluno(int alunoId){
+        Boolean retorno = false;
+        String delete = "DELETE * FROM aluno WHERE id = ?";
+
+        try{
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o DELETE
+            preparedStatement = connection.prepareStatement(delete);
+            //setando a variável
+            preparedStatement.setInt(1,alunoId);
+
+            retorno = preparedStatement.execute();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return retorno;
     }
 
     public List<Aluno> listarAluno(String nomeAluno, int treinadorId){
