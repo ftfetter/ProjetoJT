@@ -185,7 +185,7 @@ public class AlunoDAO {
 
     public boolean excluirAluno(int alunoId){
         Boolean retorno = false;
-        String delete = "DELETE * FROM aluno WHERE id = ?";
+        String delete = "DELETE FROM aluno WHERE id = ?";
 
         try{
             connection = DatabaseConnect.getConnection();

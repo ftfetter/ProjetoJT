@@ -6,9 +6,16 @@ public class Exercicio {
     private String nome;
     private String descricao;
 
-    public int getId() {
-        return id;
+    public Exercicio (){
+
     }
+
+    public Exercicio (String nome,String descricao){
+        this.setNome(nome);
+        this.setDescricao(descricao);
+    }
+
+    public int getId() { return id; }
 
     public void setId(int id) {
         this.id = id;

@@ -13,6 +13,7 @@ import java.awt.event.*;
 public class TreinadorAlunoAdicionar extends JFrame{
 
     private Treinador treinador;
+    private AlunoDAO alunoDAO;
 
     public TreinadorAlunoAdicionar(Treinador treinador){
         this.treinador = treinador;
@@ -180,8 +181,7 @@ public class TreinadorAlunoAdicionar extends JFrame{
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
         Aluno aluno = new Aluno();
-        AlunoDAO alunoDAO = new AlunoDAO();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        alunoDAO = new AlunoDAO();
 
         aluno.setNome(jTextFieldNome.getText());
         aluno.setCPF(jFormattedTextFieldCpf.getText());
@@ -193,17 +193,13 @@ public class TreinadorAlunoAdicionar extends JFrame{
         aluno.setTreinadorId(treinador.getId());
 
         if(alunoDAO.validarAluno(aluno.getCPF())){
-            try{
-                alunoDAO.adicionarAluno(aluno);
-                aluno.setId(alunoDAO.buscarIdAluno(aluno));
-                usuarioDAO.adicionarUsuario(aluno);
-
-                JOptionPane.showMessageDialog(null,"Cliente cadastrado com Sucesso!");
+            if (adicionandoAluno(aluno)) {
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com Sucesso!");
                 this.dispose();
-            }catch (Exception e){
-                System.out.println(e);
+            } else {
                 JOptionPane.showMessageDialog(null,"Falha no Cadastro!");
             }
+
         }else{
             JOptionPane.showMessageDialog(null,"CPF já cadastrado!");
         }
@@ -211,6 +207,27 @@ public class TreinadorAlunoAdicionar extends JFrame{
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
+    }
+
+    private boolean adicionandoAluno(Aluno aluno){
+        Boolean retorno = false;
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+        try{
+            if (alunoDAO.adicionarAluno(aluno)){
+                aluno.setId(alunoDAO.buscarIdAluno(aluno));
+                if (usuarioDAO.adicionarUsuario(aluno)){
+                    retorno = true;
+                }else {
+                    //alunoDAO.excluirAluno(aluno);
+                    retorno = false;
+                }
+                retorno = false;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return retorno;
     }
 
     private JButton jButtonAdicionar;

@@ -122,6 +122,9 @@ public class LoginFrame extends JFrame{
             case 2:
                 AlunoDAO alunoDAO = new AlunoDAO();
                 Aluno aluno = alunoDAO.setAluno(usuario);
+                //AlunoFrame alunoFrame = new AlunoFrame(aluno);
+                //this.setVisible(false);
+                //alunoFrame.setVisible(true);
 
                 return true;
             default:

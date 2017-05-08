@@ -22,10 +22,12 @@ public class TreinadorFrame extends JFrame{
         jLabelNome = new JLabel();
         jMenuBar = new JMenuBar();
         jMenuAluno = new JMenu();
-        jMenuItemAdicionar = new JMenuItem();
+        jMenuItemAdicionarAluno = new JMenuItem();
         jMenuItemPesquisar = new JMenuItem();
-        jMenuOpcoes = new JMenu();
-        jMenuSair = new JMenu();
+        jMenuExercicios = new JMenu();
+        jMenuItemAdicionarExerc = new JMenuItem();
+        jMenuItemListarTodos = new JMenuItem();
+        jMenuPerfil = new JMenu();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("TrainingCheck");
@@ -40,13 +42,13 @@ public class TreinadorFrame extends JFrame{
 
         jMenuAluno.setText("Aluno");
 
-        jMenuItemAdicionar.setText("Adicionar");
-        jMenuItemAdicionar.addActionListener(new ActionListener() {
+        jMenuItemAdicionarAluno.setText("Adicionar");
+        jMenuItemAdicionarAluno.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 jMenuItemAdicionarActionPerformed(evt);
             }
         });
-        jMenuAluno.add(jMenuItemAdicionar);
+        jMenuAluno.add(jMenuItemAdicionarAluno);
 
         jMenuItemPesquisar.setText("Pesquisar");
         jMenuItemPesquisar.addActionListener(new ActionListener() {
@@ -58,14 +60,30 @@ public class TreinadorFrame extends JFrame{
 
         jMenuBar.add(jMenuAluno);
 
-        jMenuOpcoes.setText("Opções");
-        jMenuBar.add(jMenuOpcoes);
-
-        jMenuSair.setText("Sair");
-        jMenuSair.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) { jMenuSairActionPerformed(evt); }
+        jMenuExercicios.setText("Exercícios");
+        jMenuItemAdicionarExerc.setText("Adicionar");
+        jMenuItemAdicionarExerc.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jMenuItemAdicionarExercActionPerformed(evt);
+            }
         });
-        jMenuBar.add(jMenuSair);
+        jMenuExercicios.add(jMenuItemAdicionarExerc);
+
+        jMenuItemListarTodos.setText("Listar Todos");
+        jMenuItemListarTodos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                jMenuItemListarTodosActionPerformed(evt);
+            }
+        });
+        jMenuExercicios.add(jMenuItemListarTodos);
+
+        jMenuBar.add(jMenuExercicios);
+
+        jMenuPerfil.setText("Perfil");
+        jMenuPerfil.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { jMenuPerfilActionPerformed(evt); }
+        });
+        jMenuBar.add(jMenuPerfil);
 
         setJMenuBar(jMenuBar);
 
@@ -117,18 +135,30 @@ public class TreinadorFrame extends JFrame{
         treinadorAlunoPesquisar.setVisible(true);
     }
 
-    private void jMenuSairActionPerformed(ActionEvent evt) {
-        LoginFrame loginFrame = new LoginFrame();
-        loginFrame.setVisible(true);
+    private void jMenuItemAdicionarExercActionPerformed(ActionEvent evt) {
+        TreinadorExercicioAdicionar treinadorExercicioAdicionar = new TreinadorExercicioAdicionar();
+        treinadorExercicioAdicionar.setVisible(true);
+    }
+
+    private void jMenuItemListarTodosActionPerformed(ActionEvent evt) {
+    //    TreinadorExercicioListarTodos treinadorExercicioListarTodos = new TreinadorExercicioListarTodos();
+    //    treinadorExercicioListarTodos.setVisible(true);
+    }
+
+    private void jMenuPerfilActionPerformed(ActionEvent evt) {
+    //    TreinadorPerfil treinadorPerfil = new TreinadorPerfil();
+    //    treinadorPerfil.setVisible(true);
     }
 
     private JPanel jPanelTreinador;
     private JLabel jLabelNome;
     private JLabel jLabelBemVindo;
     private JMenu jMenuAluno;
-    private JMenu jMenuSair;
-    private JMenu jMenuOpcoes;
+    private JMenu jMenuPerfil;
+    private JMenu jMenuExercicios;
     private JMenuBar jMenuBar;
-    private JMenuItem jMenuItemAdicionar;
+    private JMenuItem jMenuItemAdicionarAluno;
     private JMenuItem jMenuItemPesquisar;
+    private JMenuItem jMenuItemAdicionarExerc;
+    private JMenuItem jMenuItemListarTodos;
 }

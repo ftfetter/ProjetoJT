@@ -3,13 +3,14 @@ package View;
 import Beans.Aluno;
 import Beans.Treinador;
 import Database.AlunoDAO;
+import Database.UsuarioDAO;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.event.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.util.ArrayList;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
 import java.util.List;
 
 public class TreinadorAlunoPesquisar extends JFrame{
@@ -24,30 +25,30 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
-        jLabelTitulo = new javax.swing.JLabel();
-        jTextFieldNome = new javax.swing.JTextField();
-        jButtonPesquisar = new javax.swing.JButton();
-        jScrollPane = new javax.swing.JScrollPane();
-        jTableAlunos = new javax.swing.JTable();
-        jButtonAlterar = new javax.swing.JButton();
-        jButtonExcluir = new javax.swing.JButton();
-        jButtonVerTreino = new javax.swing.JButton();
-        jLabelNome = new javax.swing.JLabel();
+        jPanel = new JPanel();
+        jLabelTitulo = new JLabel();
+        jTextFieldNome = new JTextField();
+        jButtonPesquisar = new JButton();
+        jScrollPane = new JScrollPane();
+        jTableAlunos = new JTable();
+        jButtonAlterar = new JButton();
+        jButtonExcluir = new JButton();
+        jButtonVerTreino = new JButton();
+        jLabelNome = new JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabelTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabelTitulo.setFont(new Font("Tahoma", 1, 24)); // NOI18N
         jLabelTitulo.setText("Pesquisar Aluno");
 
         jButtonPesquisar.setText("Pesquisar");
-        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonPesquisar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButtonPesquisarActionPerformed(evt);
             }
         });
 
-        jTableAlunos.setModel(new javax.swing.table.DefaultTableModel(
+        jTableAlunos.setModel(new DefaultTableModel(
                 new Object [][] {
 
                 },
@@ -69,37 +70,37 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
         jButtonAlterar.setText("Alterar");
         jButtonAlterar.setEnabled(false);
-        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonAlterar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButtonAlterarActionPerformed(evt);
             }
         });
 
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.setEnabled(false);
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonExcluir.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButtonExcluirActionPerformed(evt);
             }
         });
 
         jButtonVerTreino.setText("Ver Treino");
         jButtonVerTreino.setEnabled(false);
-        jButtonVerTreino.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButtonVerTreino.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 jButtonVerTreinoActionPerformed(evt);
             }
         });
 
         jLabelNome.setText("Nome:");
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel);
-        jPanel.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
+        GroupLayout jPanelLayout = new GroupLayout(jPanel);
+        jPanel.setLayout(jPanelLayout);
+        jPanelLayout.setHorizontalGroup(
+                jPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelLayout.createSequentialGroup()
+                                .addGroup(jPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanelLayout.createSequentialGroup()
                                                 .addGap(20, 20, 20)
                                                 .addComponent(jButtonAlterar)
                                                 .addGap(82, 82, 82)
@@ -107,52 +108,52 @@ public class TreinadorAlunoPesquisar extends JFrame{
                                                 .addGap(67, 67, 67)
                                                 .addComponent(jButtonVerTreino)
                                                 .addGap(0, 0, Short.MAX_VALUE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanelLayout.createSequentialGroup()
                                                 .addContainerGap()
-                                                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jScrollPane, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                                        .addGroup(jPanelLayout.createSequentialGroup()
                                                 .addContainerGap()
                                                 .addComponent(jLabelNome)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                                                .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                                                .addComponent(jTextFieldNome, GroupLayout.PREFERRED_SIZE, 231, GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jButtonPesquisar)
                                                 .addGap(10, 10, 10)))
                                 .addContainerGap())
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(103, 103, 103)
                                 .addComponent(jLabelTitulo)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelLayout.setVerticalGroup(
+                jPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabelTitulo)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jTextFieldNome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jButtonPesquisar)
                                         .addComponent(jLabelNome))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(jButtonAlterar)
                                         .addComponent(jButtonExcluir)
                                         .addComponent(jButtonVerTreino))
                                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -184,7 +185,6 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
         Aluno aluno = new Aluno();
-
         aluno = pegarTabela();
 
         System.out.println(aluno.getId()+"//"+aluno.getNome()+"//"+aluno.getPeso()+"//"+aluno.getAltura()+"//"+aluno.getGordura());
@@ -192,11 +192,19 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
         Aluno aluno = new Aluno();
-        int indice = jTableAlunos.getSelectedRow();
+        aluno = pegarTabela();
+        if (excluirAluno(aluno)){
+            JOptionPane.showMessageDialog(null, "Aluno excluído com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Falha ao excluir o aluno.");
+
+        }
     }
 
     private void jButtonVerTreinoActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        Aluno aluno = pegarTabela();
+        TreinadorAlunoTreino treinadorAlunoTreino = new TreinadorAlunoTreino(treinador,aluno);
+        treinadorAlunoTreino.setVisible(true);
     }
 
     private boolean povoarTabela(List<Aluno> alunos, DefaultTableModel tableModel){
@@ -226,6 +234,20 @@ public class TreinadorAlunoPesquisar extends JFrame{
         aluno.setGordura((Float) tableModel.getValueAt(linha,4));
 
         return aluno;
+    }
+
+    private boolean excluirAluno(Aluno aluno){
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        alunoDAO = new AlunoDAO();
+        boolean retorno = false;
+
+        if(usuarioDAO.excluirUsuario(aluno)){
+            if(alunoDAO.excluirAluno(aluno.getId())){
+                retorno = true;
+            }
+        }
+
+        return retorno;
     }
 
     private javax.swing.JButton jButtonPesquisar;

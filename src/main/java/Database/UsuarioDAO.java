@@ -95,4 +95,24 @@ public class UsuarioDAO {
         return retorno;
     }
 
+    public boolean excluirUsuario(Aluno aluno){
+        Boolean retorno = false;
+        String delete = "DELETE FROM usuario WHERE aluno_id = ?";
+
+        try{
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o DELETE
+            preparedStatement = connection.prepareStatement(delete);
+            //setando a variável
+            preparedStatement.setInt(1,aluno.getId());
+
+            retorno = preparedStatement.execute();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return retorno;
+    }
+
 }

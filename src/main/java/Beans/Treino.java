@@ -4,12 +4,23 @@ public class Treino {
 
     private int idAluno;
     private int idExercicio;
+    private String exercicio;
     private int repeticao;
-    private int peso;
+    private int carga;
 
-    public int getIdAluno() {
-        return idAluno;
+    public Treino(){
+
     }
+
+    public Treino(int idExercicio, int idAluno, int repeticao, int carga, String exercicio){
+        this.idExercicio = idExercicio;
+        this.idAluno = idAluno;
+        this.repeticao = repeticao;
+        this.carga = carga;
+        this.exercicio = exercicio;
+    }
+
+    public int getIdAluno() { return idAluno; }
 
     public void setIdAluno(int idAluno) {
         this.idAluno = idAluno;
@@ -23,6 +34,10 @@ public class Treino {
         this.idExercicio = idExercicio;
     }
 
+    public String getExercicio() { return exercicio; }
+
+    public void setExercicio(String exercicio) { this.exercicio = exercicio; }
+
     public int getRepeticao() {
         return repeticao;
     }
@@ -31,11 +46,11 @@ public class Treino {
         this.repeticao = repeticao;
     }
 
-    public int getPeso() {
-        return peso;
+    public int getCarga() {
+        return carga;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    public void setCarga(int carga) {
+        this.carga = carga;
     }
 }
