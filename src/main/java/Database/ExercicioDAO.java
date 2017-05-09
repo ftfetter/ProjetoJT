@@ -3,12 +3,15 @@ package Database;
 import Beans.Exercicio;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExercicioDAO {
 
     static Connection connection = null;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet;
+    private Exercicio exercicio;
 
     public boolean adicionarExercicio(Exercicio exercicio){
 
@@ -20,16 +23,14 @@ public class ExercicioDAO {
 
             //preparando o INSERT
             preparedStatement = connection.prepareStatement(insert);
-
+            //setando as variáveis
             preparedStatement.setString(1,exercicio.getNome());
             preparedStatement.setString(2,exercicio.getDescricao());
 
-            retorno = preparedStatement.execute();
-
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
         } catch (SQLException e) {
             e.printStackTrace();
-            retorno = false;
-
         } finally {
             if(preparedStatement != null)
                 try {
@@ -46,6 +47,110 @@ public class ExercicioDAO {
             }
         }
         return retorno;
+    }
+
+    public boolean alterarExercicio(Exercicio exercicio){
+        boolean retorno = false;
+        String update = "UPDATE exercicio SET nome = ?,descricao = ? WHERE id = ?;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o UPDATE
+            preparedStatement = connection.prepareStatement(update);
+            //setando as variáveis
+            preparedStatement.setString(1,exercicio.getNome());
+            preparedStatement.setString(2,exercicio.getDescricao());
+
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retorno;
+    }
+
+    public boolean excluirExercicio(int exercicioId){
+        Boolean retorno = false;
+        String delete = "DELETE FROM exercicio WHERE id = ?;";
+
+        try{
+            connection = DatabaseConnect.getConnection();
+            //preparando o DELETE
+            preparedStatement = connection.prepareStatement(delete);
+
+            preparedStatement.setInt(1,exercicioId);
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retorno;
+    }
+
+    public List<Exercicio> listarExercicio(){
+        List<Exercicio> exercicios = new ArrayList<>();
+        String select = "SELECT * FROM exercicio;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                exercicio = new Exercicio(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3)
+                );
+                exercicios.add(exercicio);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return exercicios;
     }
 
     public boolean validarExercicio(String nome){
@@ -65,6 +170,12 @@ public class ExercicioDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             if (connection != null) {
                 try {
                     connection.close();
