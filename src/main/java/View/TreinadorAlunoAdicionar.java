@@ -199,7 +199,6 @@ public class TreinadorAlunoAdicionar extends JFrame{
             } else {
                 JOptionPane.showMessageDialog(null,"Falha no Cadastro!");
             }
-
         }else{
             JOptionPane.showMessageDialog(null,"CPF já cadastrado!");
         }
@@ -219,9 +218,10 @@ public class TreinadorAlunoAdicionar extends JFrame{
                 if (usuarioDAO.adicionarUsuario(aluno)){
                     retorno = true;
                 }else {
-                    //alunoDAO.excluirAluno(aluno);
+                    alunoDAO.excluirAluno(aluno.getId());
                     retorno = false;
                 }
+            } else {
                 retorno = false;
             }
         }catch (Exception e){
