@@ -10,52 +10,6 @@ public class UsuarioDAO {
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet;
 
-    public Usuario autenticarLogin(Usuario usuario) {
-
-        String select = "SELECT * FROM usuario WHERE usuario = ? AND senha = ?;";
-
-        try {
-            connection = DatabaseConnect.getConnection();
-
-            //preparando o SELECT
-            preparedStatement = connection.prepareStatement(select);
-            //setando as variáveis do SELECT
-            preparedStatement.setString(1, usuario.getLogin());
-            preparedStatement.setString(2, usuario.getSenha());
-
-            resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-
-                usuario.setTipoLogin(resultSet.getInt(4));
-
-                if(usuario.getTipoLogin() == 1) {
-                    usuario.setId(resultSet.getInt(5));
-
-                } else {
-                    usuario.setId(resultSet.getInt(6));
-                }
-            }
-        } catch (SQLException error) {
-            error.printStackTrace();
-        } finally {
-            if(preparedStatement != null)
-                try {
-                    preparedStatement.close();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return usuario;
-    }
-
     public boolean adicionarUsuario(Aluno aluno){
 
         boolean retorno = false;
@@ -63,20 +17,17 @@ public class UsuarioDAO {
 
         try {
             connection = DatabaseConnect.getConnection();
-
             //preparando o INSERT
             preparedStatement = connection.prepareStatement(insert);
-
+            //setando as variáveis
             preparedStatement.setString(1,aluno.getLogin());
             preparedStatement.setString(2,aluno.getSenha());
             preparedStatement.setInt(3,aluno.getId());
 
-            retorno = preparedStatement.execute();
-
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
         } catch (SQLException e) {
             e.printStackTrace();
-            retorno = false;
-
         } finally {
             if(preparedStatement != null)
                 try {
@@ -95,23 +46,81 @@ public class UsuarioDAO {
         return retorno;
     }
 
+    public Usuario autenticarLogin(Usuario usuario) {
+
+        String select = "SELECT * FROM usuario WHERE usuario = ? AND senha = ?;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+            //setando as variáveis do SELECT
+            preparedStatement.setString(1, usuario.getLogin());
+            preparedStatement.setString(2, usuario.getSenha());
+
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+
+                usuario.setTipoLogin(resultSet.getInt(4));
+
+                if(usuario.getTipoLogin() == 1) {
+                    usuario.setId(resultSet.getInt(5));
+
+                } else {
+                    usuario.setId(resultSet.getInt(6));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return usuario;
+    }
+
     public boolean excluirUsuario(Aluno aluno){
         Boolean retorno = false;
-        String delete = "DELETE FROM usuario WHERE aluno_id = ?";
+        String delete = "DELETE FROM usuario WHERE aluno_id = ?;";
 
         try{
             connection = DatabaseConnect.getConnection();
-
             //preparando o DELETE
             preparedStatement = connection.prepareStatement(delete);
             //setando a variável
             preparedStatement.setInt(1,aluno.getId());
 
-            retorno = preparedStatement.execute();
-        }catch (SQLException e){
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-
         return retorno;
     }
 

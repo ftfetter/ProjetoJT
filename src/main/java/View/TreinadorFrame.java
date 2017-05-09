@@ -26,7 +26,7 @@ public class TreinadorFrame extends JFrame{
         jMenuItemPesquisar = new JMenuItem();
         jMenuExercicios = new JMenu();
         jMenuItemAdicionarExerc = new JMenuItem();
-        jMenuItemListarTodos = new JMenuItem();
+        jMenuItemVerExercicios = new JMenuItem();
         jMenuPerfil = new JMenu();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -61,21 +61,12 @@ public class TreinadorFrame extends JFrame{
         jMenuBar.add(jMenuAluno);
 
         jMenuExercicios.setText("Exercícios");
-        jMenuItemAdicionarExerc.setText("Adicionar");
-        jMenuItemAdicionarExerc.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jMenuItemAdicionarExercActionPerformed(evt);
-            }
-        });
-        jMenuExercicios.add(jMenuItemAdicionarExerc);
 
-        jMenuItemListarTodos.setText("Listar Todos");
-        jMenuItemListarTodos.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jMenuItemListarTodosActionPerformed(evt);
-            }
+        jMenuItemVerExercicios.setText("Ver Exercícios");
+        jMenuItemVerExercicios.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) { jMenuItemVerExerciciosActionPerformed(evt); }
         });
-        jMenuExercicios.add(jMenuItemListarTodos);
+        jMenuExercicios.add(jMenuItemVerExercicios);
 
         jMenuBar.add(jMenuExercicios);
 
@@ -135,14 +126,9 @@ public class TreinadorFrame extends JFrame{
         treinadorAlunoPesquisar.setVisible(true);
     }
 
-    private void jMenuItemAdicionarExercActionPerformed(ActionEvent evt) {
-        TreinadorExercicioAdicionar treinadorExercicioAdicionar = new TreinadorExercicioAdicionar();
-        treinadorExercicioAdicionar.setVisible(true);
-    }
-
-    private void jMenuItemListarTodosActionPerformed(ActionEvent evt) {
-    //    TreinadorExercicioListarTodos treinadorExercicioListarTodos = new TreinadorExercicioListarTodos();
-    //    treinadorExercicioListarTodos.setVisible(true);
+    private void jMenuItemVerExerciciosActionPerformed(ActionEvent evt) {
+        TreinadorExercicio treinadorExercicio = new TreinadorExercicio();
+        treinadorExercicio.setVisible(true);
     }
 
     private void jMenuPerfilActionPerformed(ActionEvent evt) {
@@ -160,5 +146,5 @@ public class TreinadorFrame extends JFrame{
     private JMenuItem jMenuItemAdicionarAluno;
     private JMenuItem jMenuItemPesquisar;
     private JMenuItem jMenuItemAdicionarExerc;
-    private JMenuItem jMenuItemListarTodos;
+    private JMenuItem jMenuItemVerExercicios;
 }

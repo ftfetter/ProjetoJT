@@ -58,7 +58,6 @@ public class TreinadorAlunoPesquisar extends JFrame{
         ));
         jTableAlunos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         jTableAlunos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
             public void valueChanged(ListSelectionEvent evt) {
                 ListSelectionModel listSelectionModel = (ListSelectionModel) evt.getSource();
                 jButtonAlterar.setEnabled(!listSelectionModel.isSelectionEmpty());
@@ -159,17 +158,16 @@ public class TreinadorAlunoPesquisar extends JFrame{
         pack();
     }
 
-    private void jTableAlunosMouseClicked(java.awt.event.MouseEvent evt) {
-        while(evt.getClickCount()==1){
-            jButtonAlterar.setEnabled(true);
-            jButtonExcluir.setEnabled(true);
-            jButtonVerTreino.setEnabled(true);
-        }
+    private void jButtonPesquisarActionPerformed(ActionEvent evt) {
+        String nomeAluno = jTextFieldNome.getText();
+
+        if(!atualizarTabela(nomeAluno))
+            JOptionPane.showMessageDialog(null,"Nenhum aluno encontrado.");
     }
 
-    private void jButtonPesquisarActionPerformed(ActionEvent evt) {
+    private boolean atualizarTabela(String nomeAluno){
+        boolean retorno = false;
         List<Aluno> alunos = new ArrayList<>();
-        String nomeAluno = jTextFieldNome.getText();
         DefaultTableModel tableModel = (DefaultTableModel) jTableAlunos.getModel();
 
         tableModel.setNumRows(0);
@@ -177,28 +175,25 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
         if (alunos.size() > 0){
             povoarTabela(alunos,tableModel);
-        } else {
-            JOptionPane.showMessageDialog(null,"Não foram encontrados usuários com esse nome.");
+            retorno = true;
         }
-
+        return retorno;
     }
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
-        Aluno aluno = new Aluno();
-        aluno = pegarTabela();
-
-        System.out.println(aluno.getId()+"//"+aluno.getNome()+"//"+aluno.getPeso()+"//"+aluno.getAltura()+"//"+aluno.getGordura());
+        Aluno aluno = pegarTabela();
+        TreinadorAlunoAlterar treinadorAlunoAlterar = new TreinadorAlunoAlterar(aluno);
+        treinadorAlunoAlterar.setVisible(true);
     }
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        Aluno aluno = new Aluno();
-        aluno = pegarTabela();
+        Aluno aluno = pegarTabela();
         if (excluirAluno(aluno)){
             JOptionPane.showMessageDialog(null, "Aluno excluído com sucesso!");
         } else {
             JOptionPane.showMessageDialog(null, "Falha ao excluir o aluno.");
-
         }
+        atualizarTabela(aluno.getNome());
     }
 
     private void jButtonVerTreinoActionPerformed(java.awt.event.ActionEvent evt) {
@@ -238,7 +233,7 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
     private boolean excluirAluno(Aluno aluno){
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        alunoDAO = new AlunoDAO();
+        AlunoDAO alunoDAO = new AlunoDAO();
         boolean retorno = false;
 
         if(usuarioDAO.excluirUsuario(aluno)){
@@ -246,7 +241,6 @@ public class TreinadorAlunoPesquisar extends JFrame{
                 retorno = true;
             }
         }
-
         return retorno;
     }
 

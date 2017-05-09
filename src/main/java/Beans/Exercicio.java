@@ -16,6 +16,11 @@ public class Exercicio {
         this.descricao = descricao;
     }
 
+    public Exercicio (String nome,String descricao){
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
     public int getId() { return id; }
 
     public void setId(int id) {
