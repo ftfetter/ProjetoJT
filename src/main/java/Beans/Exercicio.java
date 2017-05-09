@@ -10,9 +10,10 @@ public class Exercicio {
 
     }
 
-    public Exercicio (String nome,String descricao){
-        this.setNome(nome);
-        this.setDescricao(descricao);
+    public Exercicio (int id, String nome,String descricao){
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
     }
 
     public int getId() { return id; }
