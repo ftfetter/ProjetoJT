@@ -13,32 +13,35 @@ import static org.mockito.Mockito.when;
 public class AlunoDAOTest {
 
     AlunoDAO alunoDAO = mock(AlunoDAO.class);
-    Aluno aluno;
-
-    @Test
-    public void setandoAluno(){
-        Usuario usuario = new Usuario();
-        aluno = new Aluno(1,"aluno","123.123.123-12");
-
-        when(alunoDAO.setAluno(usuario)).thenReturn(aluno);
-
-        alunoDAO.setAluno(usuario);
-
-        Assert.assertNotEquals(0,aluno.getId());
-    }
+    Aluno aluno = new Aluno(1,"aluno","123.456.789-10");;
 
     @Test
     public void adicionandoAluno(){
-        aluno = new Aluno();
         when(alunoDAO.adicionarAluno(aluno)).thenReturn(true);
 
         Assert.assertTrue(alunoDAO.adicionarAluno(aluno));
     }
 
     @Test
+    public void alterandoAluno(){
+        when(alunoDAO.alterarAluno(aluno)).thenReturn(true);
+
+        Assert.assertTrue(alunoDAO.alterarAluno(aluno));
+    }
+
+    @Test
+    public void buscandoIdAluno(){
+        int idAluno = 0;
+        when(alunoDAO.buscarIdAluno(aluno)).thenReturn(aluno.getId());
+
+        idAluno = alunoDAO.buscarIdAluno(aluno);
+
+        Assert.assertNotEquals(0,idAluno);
+    }
+
+    @Test
     public void encontrandoAluno(){
         List<Aluno> alunos = new ArrayList<>();
-        aluno = new Aluno();
         alunos.add(aluno);
 
         when(alunoDAO.listarAluno("nomeAluno",1)).thenReturn(alunos);
@@ -48,4 +51,20 @@ public class AlunoDAOTest {
         Assert.assertNotEquals(0,alunos.size());
     }
 
+    @Test
+    public void setandoAluno(){
+        Usuario usuario = new Usuario();
+        when(alunoDAO.setAluno(usuario)).thenReturn(aluno);
+
+        alunoDAO.setAluno(usuario);
+
+        Assert.assertNotEquals(0,aluno.getId());
+    }
+
+    @Test
+    public void validandoAluno(){
+        when(alunoDAO.validarAluno(aluno.getCPF())).thenReturn(true);
+
+        Assert.assertTrue(alunoDAO.validarAluno(aluno.getCPF()));
+    }
 }
