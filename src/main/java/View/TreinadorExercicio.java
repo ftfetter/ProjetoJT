@@ -141,7 +141,6 @@ public class TreinadorExercicio extends JFrame{
     }
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
-        Exercicio exercicio = pegarTabela();
         TreinadorExercicioAdicionar treinadorExercicioAdicionar = new TreinadorExercicioAdicionar();
         treinadorExercicioAdicionar.setVisible(true);
     }
