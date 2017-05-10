@@ -116,16 +116,15 @@ public class LoginFrame extends JFrame{
                 TreinadorDAO treinadorDAO = new TreinadorDAO();
                 Treinador treinador = treinadorDAO.setTreinador(usuario);
                 TreinadorFrame treinadorFrame = new TreinadorFrame(treinador);
-                this.setVisible(false);
+                this.dispose();
                 treinadorFrame.setVisible(true);
                 return true;
             case 2:
                 AlunoDAO alunoDAO = new AlunoDAO();
                 Aluno aluno = alunoDAO.setAluno(usuario);
-                //AlunoFrame alunoFrame = new AlunoFrame(aluno);
-                //this.setVisible(false);
-                //alunoFrame.setVisible(true);
-
+                AlunoFrame alunoFrame = new AlunoFrame(aluno);
+                this.dispose();
+                alunoFrame.setVisible(true);
                 return true;
             default:
                 JOptionPane.showMessageDialog(null,"Usuário e/ou senha inválidos.");
