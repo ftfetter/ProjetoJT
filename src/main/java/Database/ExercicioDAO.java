@@ -84,6 +84,41 @@ public class ExercicioDAO {
         return retorno;
     }
 
+    public int buscarIdExercicio(String exercicio){
+        int idExercicio = 0;
+        String select = "SELECT id FROM exercicio WHERE nome = ?;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+            preparedStatement = connection.prepareStatement(select);
+            preparedStatement.setString(1,exercicio);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()){
+                idExercicio = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return idExercicio;
+    }
+
     public boolean excluirExercicio(int exercicioId){
         Boolean retorno = false;
         String delete = "DELETE FROM exercicio WHERE id = ?;";
