@@ -193,7 +193,7 @@ public class TreinadorAlunoPesquisar extends JFrame{
         } else {
             JOptionPane.showMessageDialog(null, "Falha ao excluir o aluno.");
         }
-        atualizarTabela(aluno.getNome());
+        atualizarTabela(jTextFieldNome.getText());
     }
 
     private void jButtonVerTreinoActionPerformed(java.awt.event.ActionEvent evt) {
