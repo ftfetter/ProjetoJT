@@ -49,7 +49,7 @@ public class Aluno extends Usuario {
         super.setCPF(cpf);
     }
 
-    public Aluno(int id, String nome, String cpf, int tipoLogin, int idTreinador, String login, String senha) {
+    public Aluno(int id, String nome, String cpf, int tipoLogin, int treinadorId, String login, String senha) {
         super(login, senha);
         super.setId(id);
         super.setNome(nome);
