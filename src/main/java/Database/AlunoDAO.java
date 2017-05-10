@@ -15,7 +15,7 @@ public class AlunoDAO {
 
     public boolean adicionarAluno(Aluno aluno){
         boolean retorno = false;
-        String insert = "INSERT INTO aluno(nome, cpf, telefone, email, treinador_id) VALUES(?, ?, ?, ?, ?);";
+        String insert = "INSERT INTO aluno(nome, cpf, telefone, email, peso, altura, gordura, treinador_id) VALUES(?, ?, ?, ?, 0, 0, 0, ?);";
 
         try {
             connection = DatabaseConnect.getConnection();
@@ -89,6 +89,49 @@ public class AlunoDAO {
             }
         }
         return retorno;
+    }
+
+    public Aluno buscarAluno(Aluno aluno){
+
+        String select = "SELECT * FROM aluno WHERE id = ?;";
+
+        try {
+            connection = DatabaseConnect.getConnection();
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+            //setando as variáveis
+            preparedStatement.setInt(1,aluno.getId());
+
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                aluno = new Aluno(resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3)
+                );
+                aluno.setTelefone(resultSet.getString(4));
+                aluno.setEmail(resultSet.getString(5));
+                aluno.setPeso(resultSet.getFloat(6));
+                aluno.setAltura(resultSet.getFloat(7));
+                aluno.setGordura(resultSet.getFloat(8));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return aluno;
     }
 
     public int buscarIdAluno(Aluno aluno){
@@ -206,7 +249,6 @@ public class AlunoDAO {
     }
 
     public Aluno setAluno(Usuario usuario) {
-
         String select = "SELECT * FROM aluno WHERE id = ?;";
 
         try {
@@ -222,12 +264,15 @@ public class AlunoDAO {
                 aluno = new Aluno(usuario.getId(),
                         resultSet.getString(2),     // Nome do Aluno
                         resultSet.getString(3),     // CPF do Aluno
-                        resultSet.getInt(6),        // ID do Treinador do Aluno
+                        resultSet.getInt(9),        // ID do Treinador do Aluno
                         usuario.getTipoLogin(),
                         usuario.getLogin(),
                         usuario.getSenha());
                 aluno.setTelefone(resultSet.getString(4));
                 aluno.setEmail(resultSet.getString(5));
+                aluno.setPeso(resultSet.getFloat(6));
+                aluno.setAltura(resultSet.getFloat(7));
+                aluno.setGordura(resultSet.getFloat(8));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -246,7 +291,7 @@ public class AlunoDAO {
                 }
             }
         }
-        return aluno = new Aluno();
+        return aluno;
     }
 
     public boolean validarAluno(String cpf){
