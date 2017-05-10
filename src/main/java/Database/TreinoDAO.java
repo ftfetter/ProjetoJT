@@ -49,6 +49,38 @@ public class TreinoDAO {
         return retorno;
     }
 
+    public boolean excluirTreino(int treinoId){
+        Boolean retorno = false;
+        String delete = "DELETE FROM treino WHERE id = ?;";
+
+        try{
+            connection = DatabaseConnect.getConnection();
+            //preparando o DELETE
+            preparedStatement = connection.prepareStatement(delete);
+
+            preparedStatement.setInt(1,treinoId);
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retorno;
+    }
+
     public List<Treino> listarTreino(int alunoId){
         List<Treino> treinos = new ArrayList<>();
         String select = "SELECT * FROM treino,exercicio WHERE treino.aluno_id = ? AND treino.exercicio_id = exercicio.id;";
@@ -63,11 +95,12 @@ public class TreinoDAO {
 
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                treino = new Treino(resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getInt(3),
-                        resultSet.getInt(4),
-                        resultSet.getString(6)
+                treino = new Treino(resultSet.getInt(1),    //  treinoId
+                        resultSet.getInt(2),                //  exercicioId
+                        resultSet.getInt(3),                //  alunoId
+                        resultSet.getInt(4),                //  repeticao
+                        resultSet.getInt(5),                //  carga
+                        resultSet.getString(7)              //  exercicio
                 );
                 treinos.add(treino);
             }
