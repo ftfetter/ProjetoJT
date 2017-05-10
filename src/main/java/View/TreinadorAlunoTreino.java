@@ -1,6 +1,7 @@
 package View;
 
 import Beans.*;
+import Database.ExercicioDAO;
 import Database.TreinoDAO;
 
 import javax.swing.*;
@@ -22,7 +23,7 @@ public class TreinadorAlunoTreino extends JFrame{
         this.treinador = treinador;
         this.aluno = aluno;
         initComponents();
-
+        atualizarTabela();
     }
 
     private void initComponents() {
@@ -46,7 +47,7 @@ public class TreinadorAlunoTreino extends JFrame{
 
                 },
                 new String[]{
-                        "Nome", "Repetição", "Carga (kg)"
+                       "Id", "Nome", "Repetição", "Carga (kg)"
                 }
         ));
         jTableTreinos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -141,34 +142,41 @@ public class TreinadorAlunoTreino extends JFrame{
     }
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
-        TreinadorTreinoAdicionar treinadorTreinoAdicionar = new TreinadorTreinoAdicionar();
+        TreinadorTreinoAdicionar treinadorTreinoAdicionar = new TreinadorTreinoAdicionar(aluno);
         treinadorTreinoAdicionar.setVisible(true);
     }
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
-        //TreinadorTreinoAlterar treinadorTreinoAlterar = new TreinadorTreinoAdicionar();
+        //TreinadorTreinoAlterar treinadorTreinoAlterar = new TreinadorTreinoAlterar();
         //treinadorTreinoAlterar.setVisible(true);
     }
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        //TreinadorTreinoExcluir treinadorTreinoExcluir = new TreinadorTreinoExcluir();
-        //treinadorTreinoExcluir.setVisible(true);
+        Treino treino = pegarTabela();
+
+        if (excluirTreino(treino)){
+            JOptionPane.showMessageDialog(null, "Exercício excluído com sucesso!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Falha ao excluir o exercício.");
+        }
+        atualizarTabela();
     }
 
     private boolean povoarTabela(List<Treino> treinos, DefaultTableModel tableModel){
-        Object[] rowData = new Object[3];
+        Object[] rowData = new Object[4];
 
         for (int i = 0; i < treinos.size(); i++) {
-            rowData[0] = treinos.get(i).getExercicio();
-            rowData[1] = treinos.get(i).getRepeticao();
-            rowData[2] = treinos.get(i).getCarga();
+            rowData[0] = treinos.get(i).getIdTreino();
+            rowData[1] = treinos.get(i).getExercicio();
+            rowData[2] = treinos.get(i).getRepeticao();
+            rowData[3] = treinos.get(i).getCarga();
             tableModel.addRow(rowData);
         }
 
         return true;
     }
 
-    private void iniciarTabela(){
+    private void atualizarTabela(){
         List<Treino> treinos = new ArrayList<>();
         DefaultTableModel tableModel = (DefaultTableModel) jTableTreinos.getModel();
 
@@ -178,6 +186,29 @@ public class TreinadorAlunoTreino extends JFrame{
         if (treinos.size() > 0){
             povoarTabela(treinos,tableModel);
         }
+    }
+
+    private Treino pegarTabela(){
+        Treino treino = new Treino();
+        DefaultTableModel tableModel = (DefaultTableModel) jTableTreinos.getModel();
+        int linha = jTableTreinos.getSelectedRow();
+
+        treino.setIdAluno(aluno.getId());
+        treino.setIdTreino((Integer) tableModel.getValueAt(linha, 0));
+        treino.setExercicio((String) tableModel.getValueAt(linha,1));
+        treino.setRepeticao((Integer) tableModel.getValueAt(linha,2));
+        treino.setCarga((Integer) tableModel.getValueAt(linha,3));
+
+        return treino;
+    }
+
+    private boolean excluirTreino(Treino treino){
+        TreinoDAO treinoDAO = new TreinoDAO();
+
+        if(treinoDAO.excluirTreino(treino.getIdTreino()))
+            return true;
+        else
+            return false;
     }
 
     private JButton jButtonAdicionar;
