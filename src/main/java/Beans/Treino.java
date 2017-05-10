@@ -2,6 +2,7 @@ package Beans;
 
 public class Treino {
 
+    private int idTreino;
     private int idAluno;
     private int idExercicio;
     private String exercicio;
@@ -12,13 +13,18 @@ public class Treino {
 
     }
 
-    public Treino(int idExercicio, int idAluno, int repeticao, int carga, String exercicio){
+    public Treino(int idTreino, int idExercicio, int idAluno, int repeticao, int carga, String exercicio){
+        this.idTreino = idTreino;
         this.idExercicio = idExercicio;
         this.idAluno = idAluno;
         this.repeticao = repeticao;
         this.carga = carga;
         this.exercicio = exercicio;
     }
+
+    public int getIdTreino() { return idTreino; }
+
+    public void setIdTreino(int idTreino) { this.idTreino = idTreino; }
 
     public int getIdAluno() { return idAluno; }
 
