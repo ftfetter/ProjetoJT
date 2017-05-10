@@ -28,17 +28,19 @@ public class TreinadorFrame extends JFrame{
         jMenuItemAdicionarExerc = new JMenuItem();
         jMenuItemVerExercicios = new JMenuItem();
         jMenuPerfil = new JMenu();
+        jMenuItemVerPerfil = new javax.swing.JMenuItem();
+        jMenuItemSair = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("TrainingCheck");
 
-        jLabelBemVindo.setFont(new Font("Trebuchet MS", 1, 36)); // NOI18N
+        jLabelBemVindo.setFont(new Font("Trebuchet MS", 1, 36));
         jLabelBemVindo.setText("Bem Vindo");
         jLabelBemVindo.setHorizontalTextPosition(SwingConstants.CENTER);
 
-        jLabelNome.setFont(new Font("Trebuchet MS", 0, 18)); // NOI18N
+        jLabelNome.setFont(new Font("Trebuchet MS", 0, 18));
         jLabelNome.setText(treinador.getNome());
-        jLabelNome.setName("jLabelNomeTreinador"); // NOI18N
+        jLabelNome.setName("jLabelNomeTreinador");
 
         jMenuAluno.setText("Aluno");
 
@@ -71,9 +73,23 @@ public class TreinadorFrame extends JFrame{
         jMenuBar.add(jMenuExercicios);
 
         jMenuPerfil.setText("Perfil");
-        jMenuPerfil.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) { jMenuPerfilActionPerformed(evt); }
+
+        jMenuItemVerPerfil.setText("Ver Perfil");
+        jMenuItemVerPerfil.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemVerPerfilActionPerformed(evt);
+            }
         });
+        jMenuPerfil.add(jMenuItemVerPerfil);
+
+        jMenuItemSair.setText("Sair");
+        jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSairActionPerformed(evt);
+            }
+        });
+        jMenuPerfil.add(jMenuItemSair);
+
         jMenuBar.add(jMenuPerfil);
 
         setJMenuBar(jMenuBar);
@@ -136,6 +152,16 @@ public class TreinadorFrame extends JFrame{
     //    treinadorPerfil.setVisible(true);
     }
 
+    private void jMenuItemVerPerfilActionPerformed(java.awt.event.ActionEvent evt) {
+        // TODO add your handling code here:
+    }
+
+    private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {
+        LoginFrame loginFrame = new LoginFrame();
+        this.dispose();
+        loginFrame.setVisible(true);
+    }
+
     private JPanel jPanelTreinador;
     private JLabel jLabelNome;
     private JLabel jLabelBemVindo;
@@ -147,4 +173,6 @@ public class TreinadorFrame extends JFrame{
     private JMenuItem jMenuItemPesquisar;
     private JMenuItem jMenuItemAdicionarExerc;
     private JMenuItem jMenuItemVerExercicios;
+    private javax.swing.JMenuItem jMenuItemSair;
+    private javax.swing.JMenuItem jMenuItemVerPerfil;
 }
