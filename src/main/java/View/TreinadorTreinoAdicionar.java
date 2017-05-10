@@ -1,11 +1,26 @@
 package View;
 
+import Beans.Aluno;
+import Beans.Exercicio;
+import Beans.Treino;
+import Database.ExercicioDAO;
+import Database.TreinoDAO;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class TreinadorTreinoAdicionar extends JFrame{
-    public TreinadorTreinoAdicionar() {
+
+    private ExercicioDAO exercicioDAO = new ExercicioDAO();
+    private TreinoDAO treinoDAO = new TreinoDAO();
+    private Aluno aluno;
+
+    public TreinadorTreinoAdicionar(Aluno aluno) {
+        this.aluno = aluno;
         initComponents();
+        popularComboBox();
     }
 
     private void initComponents() {
@@ -59,9 +74,9 @@ public class TreinadorTreinoAdicionar extends JFrame{
                                 .addGap(0, 0, Short.MAX_VALUE))
                         .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(83, 83, 83)
-                                .addComponent(jButtonCancelar)
-                                .addGap(70, 70, 70)
                                 .addComponent(jButtonAdicionar)
+                                .addGap(70, 70, 70)
+                                .addComponent(jButtonCancelar)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                                 .addGap(55, 55, 55)
@@ -119,10 +134,41 @@ public class TreinadorTreinoAdicionar extends JFrame{
     }
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
+        Treino treino = new Treino();
 
+        treino = setTreino();
+
+        if(treinoDAO.adicionarTreino(treino)) {
+            JOptionPane.showMessageDialog(null,"Exercicio adicionado ao treino com sucesso!");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null,"Falha ao adicionar exercicio ao treino.");
+        }
     }
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) { this.dispose(); }
+
+    private void popularComboBox(){
+        List<Exercicio> exercicios;
+
+        exercicios = exercicioDAO.listarExercicio();
+
+        for(int i = 0; i < exercicios.size(); i++){
+            jComboBoxExercicio.addItem(exercicios.get(i).getNome());
+        }
+    }
+
+    private Treino setTreino(){
+        Treino treino = new Treino();
+
+        treino.setIdAluno(aluno.getId());
+        treino.setExercicio((String) jComboBoxExercicio.getSelectedItem());
+        treino.setRepeticao(Integer.parseInt(jTextFieldRepeticao.getText()));
+        treino.setCarga(Integer.parseInt(jTextFieldCarga.getText()));
+        treino.setIdExercicio(exercicioDAO.buscarIdExercicio(treino.getExercicio()));
+
+        return treino;
+    }
 
     private JButton jButtonAdicionar;
     private JButton jButtonCancelar;
