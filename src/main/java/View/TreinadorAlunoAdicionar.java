@@ -1,6 +1,5 @@
 package View;
 
-import Beans.Usuario;
 import Database.AlunoDAO;
 import Beans.Aluno;
 import Beans.Treinador;
@@ -14,6 +13,7 @@ public class TreinadorAlunoAdicionar extends JFrame{
 
     private Treinador treinador;
     private AlunoDAO alunoDAO;
+    private UsuarioDAO usuarioDAO;
 
     public TreinadorAlunoAdicionar(Treinador treinador){
         this.treinador = treinador;
@@ -193,7 +193,7 @@ public class TreinadorAlunoAdicionar extends JFrame{
         aluno.setTreinadorId(treinador.getId());
 
         if(alunoDAO.validarAluno(aluno.getCPF())){
-            if (adicionandoAluno(aluno)) {
+            if (adicionarAluno(aluno)) {
                 JOptionPane.showMessageDialog(null, "Cliente cadastrado com Sucesso!");
                 this.dispose();
             } else {
@@ -208,26 +208,21 @@ public class TreinadorAlunoAdicionar extends JFrame{
         this.dispose();
     }
 
-    private boolean adicionandoAluno(Aluno aluno){
-        Boolean retorno = false;
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+    public boolean adicionarAluno(Aluno aluno){
 
         try{
             if (alunoDAO.adicionarAluno(aluno)){
                 aluno.setId(alunoDAO.buscarIdAluno(aluno));
                 if (usuarioDAO.adicionarUsuario(aluno)){
-                    retorno = true;
+                    return true;
                 }else {
                     alunoDAO.excluirAluno(aluno.getId());
-                    retorno = false;
                 }
-            } else {
-                retorno = false;
             }
         }catch (Exception e){
             System.out.println(e);
         }
-        return retorno;
+        return false;
     }
 
     private JButton jButtonAdicionar;
