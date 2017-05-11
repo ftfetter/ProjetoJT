@@ -5,6 +5,7 @@ import Beans.Exercicio;
 import Beans.Treino;
 import Database.ExercicioDAO;
 import Database.TreinoDAO;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -136,13 +137,16 @@ public class TreinadorTreinoAdicionar extends JFrame{
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
         Treino treino = new Treino();
 
-        treino = setTreino();
-
-        if(treinoDAO.adicionarTreino(treino)) {
-            JOptionPane.showMessageDialog(null,"Exercicio adicionado ao treino com sucesso!");
-            this.dispose();
+        if(validarTreino()){
+            treino = getTreino();
+            if(treinoDAO.adicionarTreino(treino)) {
+                JOptionPane.showMessageDialog(null,"Exercicio adicionado ao treino com sucesso!");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Falha ao adicionar exercicio ao treino.");
+            }
         } else {
-            JOptionPane.showMessageDialog(null,"Falha ao adicionar exercicio ao treino.");
+            JOptionPane.showMessageDialog(null, "Digite valores válidos!");
         }
     }
 
@@ -158,7 +162,7 @@ public class TreinadorTreinoAdicionar extends JFrame{
         }
     }
 
-    private Treino setTreino(){
+    private Treino getTreino(){
         Treino treino = new Treino();
 
         treino.setIdAluno(aluno.getId());
@@ -168,6 +172,19 @@ public class TreinadorTreinoAdicionar extends JFrame{
         treino.setIdExercicio(exercicioDAO.buscarIdExercicio(treino.getExercicio()));
 
         return treino;
+    }
+
+    private boolean validarTreino(){
+        String repeticao = jTextFieldRepeticao.getText();
+        String carga = jTextFieldCarga.getText();
+
+        boolean repeticaoValida = StringUtils.containsOnly(repeticao,'0','1','2','3','4','5','6','7','8','9');
+        boolean cargaValida = StringUtils.containsOnly(carga,'0','1','2','3','4','5','6','7','8','9');
+
+        if(repeticaoValida && cargaValida)
+            return true;
+        else
+            return false;
     }
 
     private JButton jButtonAdicionar;
