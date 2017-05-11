@@ -68,9 +68,41 @@ public class TreinadorDAO {
     }
 
     public Treinador buscaTreinador(int idTreinador){
-        Treinador treinador;
+        String select = "SELECT * FROM treinador WHERE id = ?;";
+        Treinador treinador = null;
 
-        treinador = new Treinador();
+        try {
+            connection = DatabaseConnect.getConnection();
+
+            //preparando o SELECT
+            preparedStatement = connection.prepareStatement(select);
+            //setando as variáveis do SELECT
+            preparedStatement.setInt(1, idTreinador);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.first())
+                treinador = new Treinador(idTreinador,
+                        resultSet.getString(2));
+        } catch (SQLException e) {
+            treinador = new Treinador();
+            e.printStackTrace();
+
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
         return treinador;
     }
