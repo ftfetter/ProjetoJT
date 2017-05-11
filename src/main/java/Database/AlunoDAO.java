@@ -170,7 +170,7 @@ public class AlunoDAO {
         return id;
     }
 
-    public boolean excluirAluno(int alunoId){
+    public boolean excluirAluno(Aluno aluno){
         Boolean retorno = false;
         String delete = "DELETE FROM aluno WHERE id = ?;";
 
@@ -179,7 +179,7 @@ public class AlunoDAO {
             //preparando o DELETE
             preparedStatement = connection.prepareStatement(delete);
 
-            preparedStatement.setInt(1,alunoId);
+            preparedStatement.setInt(1,aluno.getId());
             if(preparedStatement.executeUpdate()>0)
                 retorno = true;
         } catch (SQLException e) {
@@ -260,12 +260,13 @@ public class AlunoDAO {
             preparedStatement.setInt(1, usuario.getId());
 
             resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
                 aluno = new Aluno(usuario.getId(),
                         resultSet.getString(2),     // Nome do Aluno
                         resultSet.getString(3),     // CPF do Aluno
-                        resultSet.getInt(9),        // ID do Treinador do Aluno
                         usuario.getTipoLogin(),
+                        resultSet.getInt(9),        // ID do Treinador do Aluno
                         usuario.getLogin(),
                         usuario.getSenha());
                 aluno.setTelefone(resultSet.getString(4));
