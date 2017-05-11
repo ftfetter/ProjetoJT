@@ -49,7 +49,7 @@ public class TreinoDAO {
         return retorno;
     }
 
-    public boolean excluirTreino(int treinoId){
+    public boolean excluirTreino(Treino treino){
         Boolean retorno = false;
         String delete = "DELETE FROM treino WHERE id = ?;";
 
@@ -58,7 +58,39 @@ public class TreinoDAO {
             //preparando o DELETE
             preparedStatement = connection.prepareStatement(delete);
 
-            preparedStatement.setInt(1,treinoId);
+            preparedStatement.setInt(1,treino.getIdTreino());
+            if(preparedStatement.executeUpdate()>0)
+                retorno = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if(preparedStatement != null)
+                try {
+                    preparedStatement.close();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return retorno;
+    }
+
+    public boolean excluirTreino(Exercicio exercicio){
+        Boolean retorno = false;
+        String delete = "DELETE FROM treino WHERE exercicio_id = ?;";
+
+        try{
+            connection = DatabaseConnect.getConnection();
+            //preparando o DELETE
+            preparedStatement = connection.prepareStatement(delete);
+
+            preparedStatement.setInt(1,exercicio.getId());
             if(preparedStatement.executeUpdate()>0)
                 retorno = true;
         } catch (SQLException e) {
