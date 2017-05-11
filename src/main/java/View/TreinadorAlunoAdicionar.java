@@ -12,8 +12,8 @@ import java.awt.event.*;
 public class TreinadorAlunoAdicionar extends JFrame{
 
     private Treinador treinador;
-    private AlunoDAO alunoDAO;
-    private UsuarioDAO usuarioDAO;
+    private AlunoDAO alunoDAO = new AlunoDAO();
+    private UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     public TreinadorAlunoAdicionar(Treinador treinador){
         this.treinador = treinador;
@@ -181,7 +181,6 @@ public class TreinadorAlunoAdicionar extends JFrame{
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
         Aluno aluno = new Aluno();
-        alunoDAO = new AlunoDAO();
 
         aluno.setNome(jTextFieldNome.getText());
         aluno.setCPF(jFormattedTextFieldCpf.getText());
@@ -216,7 +215,7 @@ public class TreinadorAlunoAdicionar extends JFrame{
                 if (usuarioDAO.adicionarUsuario(aluno)){
                     return true;
                 }else {
-                    alunoDAO.excluirAluno(aluno.getId());
+                    alunoDAO.excluirAluno(aluno);
                 }
             }
         }catch (Exception e){
