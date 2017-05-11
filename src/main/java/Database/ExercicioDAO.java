@@ -119,7 +119,7 @@ public class ExercicioDAO {
         return idExercicio;
     }
 
-    public boolean excluirExercicio(int exercicioId){
+    public boolean excluirExercicio(Exercicio exercicio){
         Boolean retorno = false;
         String delete = "DELETE FROM exercicio WHERE id = ?;";
 
@@ -128,7 +128,7 @@ public class ExercicioDAO {
             //preparando o DELETE
             preparedStatement = connection.prepareStatement(delete);
 
-            preparedStatement.setInt(1,exercicioId);
+            preparedStatement.setInt(1,exercicio.getId());
             if(preparedStatement.executeUpdate()>0)
                 retorno = true;
         } catch (SQLException e) {
