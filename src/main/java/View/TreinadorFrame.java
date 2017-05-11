@@ -74,14 +74,6 @@ public class TreinadorFrame extends JFrame{
 
         jMenuPerfil.setText("Perfil");
 
-        jMenuItemVerPerfil.setText("Ver Perfil");
-        jMenuItemVerPerfil.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemVerPerfilActionPerformed(evt);
-            }
-        });
-        jMenuPerfil.add(jMenuItemVerPerfil);
-
         jMenuItemSair.setText("Sair");
         jMenuItemSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -145,11 +137,6 @@ public class TreinadorFrame extends JFrame{
     private void jMenuItemVerExerciciosActionPerformed(ActionEvent evt) {
         TreinadorExercicio treinadorExercicio = new TreinadorExercicio();
         treinadorExercicio.setVisible(true);
-    }
-
-    private void jMenuItemVerPerfilActionPerformed(java.awt.event.ActionEvent evt) {
-        //TreinadorPerfil treinadorPerfil = new TreinadorPerfil();
-        //treinadorPerfil.setVisible(true);
     }
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {
