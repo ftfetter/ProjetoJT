@@ -166,7 +166,6 @@ public class TreinadorAlunoPesquisar extends JFrame{
     }
 
     private boolean atualizarTabela(String nomeAluno){
-        boolean retorno = false;
         List<Aluno> alunos = new ArrayList<>();
         DefaultTableModel tableModel = (DefaultTableModel) jTableAlunos.getModel();
 
@@ -175,9 +174,9 @@ public class TreinadorAlunoPesquisar extends JFrame{
 
         if (alunos.size() > 0){
             povoarTabela(alunos,tableModel);
-            retorno = true;
+            return true;
         }
-        return retorno;
+        return false;
     }
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
