@@ -1,6 +1,9 @@
 package View;
 
 import Beans.Aluno;
+import Beans.Treinador;
+import Database.TreinadorDAO;
+import Database.TreinoDAO;
 
 import javax.swing.*;
 
@@ -11,20 +14,22 @@ public class AlunoPerfil extends JFrame{
     public AlunoPerfil(Aluno aluno) {
         this.aluno = aluno;
         initComponents();
-        atualizarCampos();
+        adicionarTreinador();
     }
 
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanel = new javax.swing.JPanel();
         jLabelNome = new javax.swing.JLabel();
         jLabelPeso = new javax.swing.JLabel();
         jLabelAltura = new javax.swing.JLabel();
         jLabelGordura = new javax.swing.JLabel();
-        jTextFieldPeso = new javax.swing.JTextField();
-        jTextFieldAltura = new javax.swing.JTextField();
-        jTextFieldGordura = new javax.swing.JTextField();
         jButtonFechar = new javax.swing.JButton();
+        jLabelPesoValor = new javax.swing.JLabel();
+        jLabelAlturaValor = new javax.swing.JLabel();
+        jLabelGorduraValor = new javax.swing.JLabel();
+        jLabelTreinador = new javax.swing.JLabel();
+        jLabelTreinadorValor = new javax.swing.JLabel();
 
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -39,12 +44,6 @@ public class AlunoPerfil extends JFrame{
 
         jLabelGordura.setText("Gordura (%)");
 
-        jTextFieldPeso.setEnabled(false);
-
-        jTextFieldAltura.setEnabled(false);
-
-        jTextFieldGordura.setEnabled(false);
-
         jButtonFechar.setText("Fechar");
         jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,50 +51,67 @@ public class AlunoPerfil extends JFrame{
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+        jLabelPesoValor.setText(String.valueOf(aluno.getPeso()));
+
+        jLabelAlturaValor.setText(String.valueOf(aluno.getAltura()));
+
+        jLabelGorduraValor.setText(String.valueOf(aluno.getGordura()));
+
+        jLabelTreinador.setText("Treinador");
+
+        jLabelTreinadorValor.setText("");
+
+        javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
+        jPanel.setLayout(jPanelLayout);
+        jPanelLayout.setHorizontalGroup(
+                jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(39, 39, 39)
                                 .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(46, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
+                                                .addComponent(jButtonFechar)
+                                                .addGap(166, 166, 166))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
+                                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                         .addComponent(jLabelGordura)
                                                         .addComponent(jLabelAltura)
-                                                        .addComponent(jLabelPeso))
+                                                        .addComponent(jLabelPeso)
+                                                        .addComponent(jLabelTreinador))
                                                 .addGap(43, 43, 43)
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jTextFieldPeso)
-                                                        .addComponent(jTextFieldAltura)
-                                                        .addComponent(jTextFieldGordura, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
-                                                .addGap(120, 120, 120))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addComponent(jButtonFechar)
-                                                .addGap(166, 166, 166))))
+                                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                .addComponent(jLabelPesoValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabelAlturaValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(jLabelGorduraValor, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
+                                                        .addComponent(jLabelTreinadorValor, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(19, 19, 19))))
         );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelLayout.setVerticalGroup(
+                jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(jLabelNome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addGap(28, 28, 28)
+                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelTreinador)
+                                        .addComponent(jLabelTreinadorValor))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabelPeso)
-                                        .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelPesoValor))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabelAltura)
-                                        .addComponent(jTextFieldAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 30, 30)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabelAlturaValor))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabelGordura)
-                                        .addComponent(jTextFieldGordura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                                        .addComponent(jLabelGorduraValor))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
                                 .addComponent(jButtonFechar)
                                 .addGap(27, 27, 27))
         );
@@ -104,11 +120,11 @@ public class AlunoPerfil extends JFrame{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -116,19 +132,22 @@ public class AlunoPerfil extends JFrame{
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) { this.dispose(); }
 
-    private void atualizarCampos () {
-        jTextFieldPeso.setText(String.valueOf(aluno.getPeso()));
-        jTextFieldAltura.setText(String.valueOf(aluno.getAltura()));
-        jTextFieldGordura.setText(String.valueOf(aluno.getGordura()));
+    private void adicionarTreinador () {
+        TreinadorDAO treinadorDAO = new TreinadorDAO();
+        Treinador treinador = treinadorDAO.buscaTreinador(aluno.getTreinadorId());
+
+        jLabelTreinadorValor.setText(treinador.getNome());
     }
 
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JLabel jLabelAltura;
+    private javax.swing.JLabel jLabelAlturaValor;
     private javax.swing.JLabel jLabelGordura;
+    private javax.swing.JLabel jLabelGorduraValor;
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelPeso;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextFieldAltura;
-    private javax.swing.JTextField jTextFieldGordura;
-    private javax.swing.JTextField jTextFieldPeso;
+    private javax.swing.JLabel jLabelPesoValor;
+    private javax.swing.JLabel jLabelTreinador;
+    private javax.swing.JLabel jLabelTreinadorValor;
+    private javax.swing.JPanel jPanel;
 }
