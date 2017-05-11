@@ -32,7 +32,6 @@ public class TreinadorAlunoTreino extends JFrame{
         jLabelTitulo = new JLabel();
         jScrollPane = new JScrollPane();
         jTableTreinos = new JTable();
-        jButtonAlterar = new JButton();
         jButtonExcluir = new JButton();
         jButtonAdicionar = new JButton();
 
@@ -55,19 +54,10 @@ public class TreinadorAlunoTreino extends JFrame{
             @Override
             public void valueChanged(ListSelectionEvent evt) {
                 ListSelectionModel listSelectionModel = (ListSelectionModel) evt.getSource();
-                jButtonAlterar.setEnabled(!listSelectionModel.isSelectionEmpty());
                 jButtonExcluir.setEnabled(!listSelectionModel.isSelectionEmpty());
             }
         });
         jScrollPane.setViewportView(jTableTreinos);
-
-        jButtonAlterar.setText("Alterar");
-        jButtonAlterar.setEnabled(false);
-        jButtonAlterar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jButtonAlterarActionPerformed(evt);
-            }
-        });
 
         jButtonExcluir.setText("Excluir");
         jButtonExcluir.setEnabled(false);
@@ -95,8 +85,6 @@ public class TreinadorAlunoTreino extends JFrame{
                         .addGroup(jPanelLayout.createSequentialGroup()
                                 .addGap(22, 22, 22)
                                 .addComponent(jButtonAdicionar)
-                                .addGap(71, 71, 71)
-                                .addComponent(jButtonAlterar)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                                 .addComponent(jButtonExcluir)
                                 .addGap(19, 19, 19))
@@ -114,7 +102,6 @@ public class TreinadorAlunoTreino extends JFrame{
                                 .addComponent(jScrollPane, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jButtonAlterar)
                                         .addComponent(jButtonExcluir)
                                         .addComponent(jButtonAdicionar))
                                 .addContainerGap())
@@ -134,21 +121,10 @@ public class TreinadorAlunoTreino extends JFrame{
         pack();
     }
 
-    private void jTableTreinoMouseClicked(java.awt.event.MouseEvent evt) {
-        while(evt.getClickCount()==1){
-            jButtonAlterar.setEnabled(true);
-            jButtonExcluir.setEnabled(true);
-        }
-    }
 
     private void jButtonAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
         TreinadorTreinoAdicionar treinadorTreinoAdicionar = new TreinadorTreinoAdicionar(aluno);
         treinadorTreinoAdicionar.setVisible(true);
-    }
-
-    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {
-        //TreinadorTreinoAlterar treinadorTreinoAlterar = new TreinadorTreinoAlterar();
-        //treinadorTreinoAlterar.setVisible(true);
     }
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
@@ -162,20 +138,6 @@ public class TreinadorAlunoTreino extends JFrame{
         atualizarTabela();
     }
 
-    private boolean povoarTabela(List<Treino> treinos, DefaultTableModel tableModel){
-        Object[] rowData = new Object[4];
-
-        for (int i = 0; i < treinos.size(); i++) {
-            rowData[0] = treinos.get(i).getIdTreino();
-            rowData[1] = treinos.get(i).getExercicio();
-            rowData[2] = treinos.get(i).getRepeticao();
-            rowData[3] = treinos.get(i).getCarga();
-            tableModel.addRow(rowData);
-        }
-
-        return true;
-    }
-
     private void atualizarTabela(){
         List<Treino> treinos = new ArrayList<>();
         DefaultTableModel tableModel = (DefaultTableModel) jTableTreinos.getModel();
@@ -186,6 +148,15 @@ public class TreinadorAlunoTreino extends JFrame{
         if (treinos.size() > 0){
             povoarTabela(treinos,tableModel);
         }
+    }
+
+    private boolean excluirTreino(Treino treino){
+        TreinoDAO treinoDAO = new TreinoDAO();
+
+        if(treinoDAO.excluirTreino(treino))
+            return true;
+
+        return false;
     }
 
     private Treino pegarTabela(){
@@ -202,17 +173,21 @@ public class TreinadorAlunoTreino extends JFrame{
         return treino;
     }
 
-    private boolean excluirTreino(Treino treino){
-        TreinoDAO treinoDAO = new TreinoDAO();
+    private boolean povoarTabela(List<Treino> treinos, DefaultTableModel tableModel){
+        Object[] rowData = new Object[4];
 
-        if(treinoDAO.excluirTreino(treino.getIdTreino()))
-            return true;
-        else
-            return false;
+        for (int i = 0; i < treinos.size(); i++) {
+            rowData[0] = treinos.get(i).getIdTreino();
+            rowData[1] = treinos.get(i).getExercicio();
+            rowData[2] = treinos.get(i).getRepeticao();
+            rowData[3] = treinos.get(i).getCarga();
+            tableModel.addRow(rowData);
+        }
+
+        return true;
     }
 
     private JButton jButtonAdicionar;
-    private JButton jButtonAlterar;
     private JButton jButtonExcluir;
     private JLabel jLabelTitulo;
     private JPanel jPanel;
