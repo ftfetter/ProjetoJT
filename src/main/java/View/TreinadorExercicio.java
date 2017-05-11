@@ -3,6 +3,7 @@ package View;
 import Beans.Exercicio;
 import Beans.Treinador;
 import Database.ExercicioDAO;
+import Database.TreinoDAO;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -16,6 +17,7 @@ import java.util.List;
 public class TreinadorExercicio extends JFrame{
 
     private ExercicioDAO exercicioDAO = new ExercicioDAO();
+    private Exercicio exercicio;
 
     public TreinadorExercicio() {
         initComponents();
@@ -152,7 +154,14 @@ public class TreinadorExercicio extends JFrame{
     }
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        exercicio = pegarTabela();
+
+        if(excluirExercicio(exercicio)){
+            JOptionPane.showMessageDialog(null,"Exercício excluído com sucesso!");
+            atualizarTabela();
+        } else {
+            JOptionPane.showMessageDialog(null,"Não foi possível excluir o exercício.");
+        }
     }
 
     private void jButtonAtualizarActionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,7 +170,6 @@ public class TreinadorExercicio extends JFrame{
     }
 
     private boolean atualizarTabela(){
-        boolean retorno = false;
         List<Exercicio> exercicios = new ArrayList<>();
         DefaultTableModel tableModel = (DefaultTableModel) jTableExercicios.getModel();
 
@@ -170,9 +178,19 @@ public class TreinadorExercicio extends JFrame{
 
         if (exercicios.size() > 0){
             povoarTabela(exercicios,tableModel);
-            retorno = true;
+            return true;
         }
-        return retorno;
+        return false;
+    }
+
+    private boolean excluirExercicio(Exercicio exercicio){
+        TreinoDAO treinoDAO = new TreinoDAO();
+
+        if (treinoDAO.excluirTreino(exercicio))
+            if(exercicioDAO.excluirExercicio(exercicio))
+                return true;
+
+        return false;
     }
 
     private Exercicio pegarTabela(){
@@ -183,6 +201,7 @@ public class TreinadorExercicio extends JFrame{
         exercicio.setId((Integer) tableModel.getValueAt(linha,0));
         exercicio.setNome((String) tableModel.getValueAt(linha,1));
         exercicio.setDescricao((String) tableModel.getValueAt(linha,2));
+
         return exercicio;
     }
 
