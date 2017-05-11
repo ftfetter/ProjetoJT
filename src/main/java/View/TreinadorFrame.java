@@ -147,13 +147,9 @@ public class TreinadorFrame extends JFrame{
         treinadorExercicio.setVisible(true);
     }
 
-    private void jMenuPerfilActionPerformed(ActionEvent evt) {
-    //    TreinadorPerfil treinadorPerfil = new TreinadorPerfil();
-    //    treinadorPerfil.setVisible(true);
-    }
-
     private void jMenuItemVerPerfilActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:
+        //TreinadorPerfil treinadorPerfil = new TreinadorPerfil();
+        //treinadorPerfil.setVisible(true);
     }
 
     private void jMenuItemSairActionPerformed(java.awt.event.ActionEvent evt) {
