@@ -9,12 +9,9 @@ import Beans.*;
 public class LoginFrame extends JFrame{
 
     public LoginFrame() {
-
         initComponents();
-
     }
 
-    // Função para inicialização de todos os componentes visuais
     private void initComponents() {
 
         jTextFieldUsuario = new JTextField();
@@ -110,26 +107,38 @@ public class LoginFrame extends JFrame{
         }
     }
 
-    public boolean login(Usuario usuario){
+    public int login(Usuario usuario){
         switch(usuario.getTipoLogin()){
             case 1:
-                TreinadorDAO treinadorDAO = new TreinadorDAO();
-                Treinador treinador = treinadorDAO.setTreinador(usuario);
-                TreinadorFrame treinadorFrame = new TreinadorFrame(treinador);
-                this.dispose();
-                treinadorFrame.setVisible(true);
-                return true;
+                if(entrarTreinador(usuario))
+                    return 1;
             case 2:
-                AlunoDAO alunoDAO = new AlunoDAO();
-                Aluno aluno = alunoDAO.setAluno(usuario);
-                AlunoFrame alunoFrame = new AlunoFrame(aluno);
-                this.dispose();
-                alunoFrame.setVisible(true);
-                return true;
+                if(entrarAluno(usuario))
+                    return 2;
             default:
                 JOptionPane.showMessageDialog(null,"Usuário e/ou senha inválidos.");
+                return 0;
         }
-        return false;
+    }
+
+    public boolean entrarAluno (Usuario usuario){
+        AlunoDAO alunoDAO = new AlunoDAO();
+        Aluno aluno = alunoDAO.setAluno(usuario);
+        AlunoFrame alunoFrame = new AlunoFrame(aluno);
+        this.dispose();
+        alunoFrame.setVisible(true);
+
+        return true;
+    }
+
+    public boolean entrarTreinador (Usuario usuario){
+        TreinadorDAO treinadorDAO = new TreinadorDAO();
+        Treinador treinador = treinadorDAO.setTreinador(usuario);
+        TreinadorFrame treinadorFrame = new TreinadorFrame(treinador);
+        this.dispose();
+        treinadorFrame.setVisible(true);
+
+        return true;
     }
 
     private JLabel jLabelTitulo;
