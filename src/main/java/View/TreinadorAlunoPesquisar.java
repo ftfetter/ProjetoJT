@@ -235,11 +235,10 @@ public class TreinadorAlunoPesquisar extends JFrame{
         AlunoDAO alunoDAO = new AlunoDAO();
         boolean retorno = false;
 
-        if(usuarioDAO.excluirUsuario(aluno)){
-            if(alunoDAO.excluirAluno(aluno.getId())){
+        if(usuarioDAO.excluirUsuario(aluno))
+            if(alunoDAO.excluirAluno(aluno))
                 retorno = true;
-            }
-        }
+
         return retorno;
     }
 
